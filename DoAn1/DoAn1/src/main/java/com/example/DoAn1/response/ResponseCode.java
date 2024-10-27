@@ -21,7 +21,13 @@ public enum ResponseCode {
     SendEmailSuccessfully(1000, "send email successfully!"),
     UpdatePasswordSuccessfully(1000, "update password successfully!"),
     LoginSuccessfully(1000, "login successfully!"),
-    CreateFoodSuccessfully(1000, "create food successfully!");
+    CreateFoodSuccessfully(1000, "create food successfully!"),
+    AddExercise(1000, "Add exercise successfully!"),
+    UpdateUserInfo(1000, "update user successfully!"),
+    UpdateFood(1000, "update food successfully!"),
+    LikeFood(1000, "Like food successfully!"),
+    VoteFood(1000, "vote food successfully!"),
+    UpdateUserDiet(1000, "update user diet successfully!");
 
     private int code;
     private String message;

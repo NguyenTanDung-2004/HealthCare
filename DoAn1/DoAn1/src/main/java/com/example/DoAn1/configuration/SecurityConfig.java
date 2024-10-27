@@ -46,9 +46,9 @@ public class SecurityConfig {
         public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
                 httpSecurity.authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers(HttpMethod.GET, GetPublicEnpoints).permitAll()
+                                .requestMatchers(HttpMethod.GET).permitAll()
                                 .requestMatchers("/static/**").permitAll() // Allow access to static resources
-                                .requestMatchers(HttpMethod.POST, PostPublicEnpoints).permitAll()
+                                .requestMatchers(HttpMethod.POST).permitAll()
                                 .requestMatchers(HttpMethod.POST, PostAdmin).hasAuthority("SCOPE_ROLE_admin")
                                 .anyRequest().authenticated());
 

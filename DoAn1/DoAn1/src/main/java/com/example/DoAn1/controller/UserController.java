@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.repository.FoodRepository;
 import com.example.DoAn1.request.UserCompleteRequest;
 import com.example.DoAn1.request.UserCreationRequest;
+import com.example.DoAn1.request.UserInfoUpdateRequest;
 import com.example.DoAn1.request.UserUpdatePasswordRequest;
 import com.example.DoAn1.response.ResponseCode;
 import com.example.DoAn1.service.UserService;
@@ -51,14 +53,26 @@ public class UserController {
         return this.userService.updatePassword(userUpdatePasswordRequest);
     }
 
-    @Autowired
-    private FoodRepository foodRepository;
-
     @PostMapping("/Login")
     public ResponseEntity login(@RequestParam(name = "email") String email,
             @RequestParam(name = "password") String password, HttpServletResponse httpServletResponse) {
-        List<Food> list = this.foodRepository.findAll();
-        return ResponseEntity.ok().body(list);
-        // return this.userService.login(password, email, httpServletResponse);
+        return this.userService.login(password, email, httpServletResponse);
+    }
+
+    @GetMapping("/userInfo")
+    public ResponseEntity getUserInfo(HttpServletRequest httpServletRequest) {
+        return this.userService.getUserInfo(httpServletRequest);
+    }
+
+    @PostMapping("/updateUserInfo")
+    public ResponseEntity updateUserInfo(HttpServletRequest httpServletRequest,
+            @RequestBody UserInfoUpdateRequest userInfoUpdateRequest) {
+        return this.userService.updateUserInfo(httpServletRequest, userInfoUpdateRequest);
+    }
+
+    @PostMapping("/updateUserDiet")
+    public ResponseEntity updateUserDiet(HttpServletRequest httpServletRequest,
+            @RequestParam(name = "flagDiet") int flagDiet) {
+        return this.userService.updateUserDiet(httpServletRequest, flagDiet);
     }
 }

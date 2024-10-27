@@ -3,6 +3,8 @@ package com.example.DoAn1.entities;
 import java.util.HashSet;
 import java.util.List;
 
+import com.example.DoAn1.entities.user_vote_food.UserVoteFood;
+
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,11 +12,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "food")
@@ -60,6 +65,16 @@ public class Food {
     private int flagBloodGlucose; // 1 hạn chế, 0
     private int flagHeart; // 1 hạn chế, 0
 
+    @Column(nullable = false, columnDefinition = "Integer default 0")
+    private Integer numberOfLikes;
+
+    @Column(columnDefinition = "longtext")
+    private String descriptionFood;
+
     @ManyToMany(mappedBy = "likedFoods")
     private java.util.Set<User> users = new HashSet<>();
+
+    // user vote food
+    @OneToMany(mappedBy = "food")
+    private Set<UserVoteFood> userFoods = new HashSet<>();
 }
