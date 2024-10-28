@@ -5,18 +5,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.example.DoAn1.Model.Meal;
+import com.example.DoAn1.Model.UserFoodInUserHistory;
 import com.example.DoAn1.entities.Food;
+import com.example.DoAn1.entities.user_food.UserFood;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.Map;
+import java.util.HashMap;
 
 @Entity
 @Table(name = "user_history")
@@ -35,7 +45,7 @@ public class UserHistory {
     private Float currentCarb;
     private Float totalProtein;
     private Float currentProtein;
-
+    private Float currentBurned; // update
     private float height;
     private float weight;
     private float bloodPressure;
@@ -52,4 +62,82 @@ public class UserHistory {
     private List<String> foodId = new ArrayList<>();
     @Column(columnDefinition = "blob") // Specify nvarchar column type
     private List<String> excerciseId = new ArrayList<>();
+
+    @Transient
+    private Map<String, Integer> exercises = new HashMap();
+
+    @Transient
+    private Map<String, Integer> foods = new HashMap();
+
+    @Column(columnDefinition = "blob") // Use "BLOB" if you expect large data
+    private String exercisesJson;
+
+    @Column(columnDefinition = "blob") // Use "BLOB" if you expect large data
+    private String foodsJson;
+
+    @Column(columnDefinition = "blob") // Use "BLOB" if you expect large data
+    private List<String> listFoodNames = new ArrayList<>(); // in user food
+
+    @Column(columnDefinition = "blob")
+    private List<Integer> listFlags = new ArrayList<>(); // in user food
+
+    @Column(columnDefinition = "blob") // Use "BLOB" if you expect large data
+    private List<String> listSystemFoodId = new ArrayList<>(); // in system food
+
+    @Column(columnDefinition = "blob") // Use "BLOB" if you expect large data
+    private List<String> listFlagsSystem = new ArrayList<>(); // in system food
+
+    @Column(columnDefinition = "blob") // Use "BLOB" if you expect large data
+    private List<Float> listWeightSystem = new ArrayList<>(); // in system food
+
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    // Custom getter: converts JSON to Map when accessing the field
+    public Map<String, Integer> getExercisesFromExerciseJson() {
+        if (exercisesJson == null || exercisesJson.isEmpty()) {
+            return new HashMap<>();
+        }
+        try {
+            return mapper.readValue(exercisesJson, new TypeReference<Map<String, Integer>>() {
+            });
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return new HashMap<>();
+        }
+    }
+
+    // Custom setter: converts Map to JSON when setting the field
+    public void setExerciseJsonFromExercises(Map<String, Integer> exercises) {
+        try {
+            this.exercisesJson = mapper.writeValueAsString(exercises);
+            this.exercises = exercises;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            this.exercisesJson = null;
+        }
+    }
+
+    // Custom getter: converts JSON to Map when accessing the field
+    public Map<String, Integer> getFoodsFromFoodsJson() {
+        if (foodsJson == null || foodsJson.isEmpty()) {
+            return new HashMap<>();
+        }
+        try {
+            return mapper.readValue(foodsJson, new TypeReference<Map<String, Integer>>() {
+            });
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return new HashMap<>();
+        }
+    }
+
+    // Custom setter: converts Map to JSON when setting the field
+    public void setFoodsJsonFromFoods(Map<String, Integer> foods) {
+        try {
+            this.foodsJson = mapper.writeValueAsString(foods);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            this.exercisesJson = null;
+        }
+    }
 }

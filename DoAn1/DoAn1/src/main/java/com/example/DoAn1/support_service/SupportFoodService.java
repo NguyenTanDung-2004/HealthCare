@@ -10,19 +10,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
+import com.example.DoAn1.Model.DayMonthYear;
+import com.example.DoAn1.Model.Meal;
 import com.example.DoAn1.Model.RelatedFood;
 import com.example.DoAn1.Model.Vote;
 import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.entities.User;
 import com.example.DoAn1.entities.status_food_excercise.StatusFoodExcerciseId;
 import com.example.DoAn1.entities.status_food_excercise.UserStatus_Food_Excercise;
+import com.example.DoAn1.entities.user_food.UserFood;
+import com.example.DoAn1.entities.user_food.UserFoodId;
+import com.example.DoAn1.entities.user_history.UserHistory;
+import com.example.DoAn1.entities.user_history.UserHistoryId;
 import com.example.DoAn1.entities.user_vote_food.UserVoteFood;
 import com.example.DoAn1.entities.user_vote_food.UserVoteFoodId;
+import com.example.DoAn1.exception.ExceptionCode;
+import com.example.DoAn1.exception.ExceptionUser;
 import com.example.DoAn1.repository.FoodRepository;
 import com.example.DoAn1.repository.StatusFoodExcerciseRepository;
+import com.example.DoAn1.repository.UserFoodRepository;
+import com.example.DoAn1.repository.UserHistoryRepository;
 import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.repository.UserVoteFoodRepository;
 import com.example.DoAn1.request.FoodEditRequest;
+import com.example.DoAn1.request.UserCreateFoodRequest;
 import com.example.DoAn1.response.ResponseFoodDetail;
 import com.example.DoAn1.response.ResponseFoods;
 
@@ -48,6 +59,12 @@ public class SupportFoodService {
 
     @Autowired
     private UserVoteFoodRepository userVoteFoodRepository;
+
+    @Autowired
+    private UserFoodRepository userFoodRepository;
+
+    @Autowired
+    private UserHistoryRepository userHistoryRepository;
 
     public void updateFood(FoodEditRequest foodEditRequest, Food food) {
         // food.setName(foodEditRequest.getName());
@@ -348,4 +365,51 @@ public class SupportFoodService {
         }
         return listResponseFoods;
     }
+
+    // check if food name is exist
+    public boolean checkFoodName(String userId, String foodName) {
+        int numberOfRows = this.userFoodRepository.checkFoodName(userId, foodName);
+        if (numberOfRows == 0) {
+            return true;
+        } else {
+            throw new ExceptionUser(ExceptionCode.FoodNameIsExist);
+        }
+    }
+
+    public void saveFoodInUserFood(UserCreateFoodRequest userCreateFoodRequest, String userId) {
+        UserFood userFood = UserFood.builder()
+                .userFoodId(UserFoodId.builder()
+                        .userId(userId)
+                        .userFoodName(userCreateFoodRequest.getName())
+                        .build())
+                .weight(userCreateFoodRequest.getWeight())
+                .calories(userCreateFoodRequest.getCalories())
+
+                .protein(userCreateFoodRequest.getProtein())
+                .carb(userCreateFoodRequest.getCarb())
+                .fat(userCreateFoodRequest.getFat())
+                .build();
+        this.userFoodRepository.save(userFood);
+    }
+
+    public void saveFoodInUserHistory(String userId, UserCreateFoodRequest userCreateFoodRequest) {
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        UserHistory userHistory = UserHistory.builder()
+                .userHistoryId(UserHistoryId.builder()
+                        .day(localDate.getDayOfMonth())
+                        .month(localDate.getMonthValue())
+                        .year(localDate.getYear())
+                        .userId(userId)
+                        .build())
+                .build();
+        if (userHistory.getListFoodNames() == null) {
+            userHistory.setListFoodNames(new ArrayList<>());
+            userHistory.setListFlags(new ArrayList<>());
+        }
+        userHistory.getListFoodNames().add(userCreateFoodRequest.getName());
+        userHistory.getListFlags().add(userCreateFoodRequest.getFlag());
+        this.userHistoryRepository.save(userHistory);
+    }
+
 }

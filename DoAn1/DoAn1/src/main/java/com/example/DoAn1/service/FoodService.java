@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +15,20 @@ import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.entities.User;
 import com.example.DoAn1.entities.status_food_excercise.StatusFoodExcerciseId;
 import com.example.DoAn1.entities.status_food_excercise.UserStatus_Food_Excercise;
+import com.example.DoAn1.entities.user_food.UserFood;
 import com.example.DoAn1.mapper.FoodMapper;
 import com.example.DoAn1.repository.FoodRepository;
 import com.example.DoAn1.repository.StatusFoodExcerciseRepository;
+import com.example.DoAn1.repository.UserFoodRepository;
 import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.request.FoodCreationRequest;
 import com.example.DoAn1.request.FoodEditRequest;
+import com.example.DoAn1.request.UserCreateFoodRequest;
 import com.example.DoAn1.response.ResponseCode;
 import com.example.DoAn1.response.ResponseFoodDetail;
+import com.example.DoAn1.response.ResponseFoodDetailInSystem;
 import com.example.DoAn1.response.ResponseFoods;
+import com.example.DoAn1.response.ResponseUserFood;
 import com.example.DoAn1.support_service.SupportFoodService;
 import com.example.DoAn1.support_service.SupportUserService;
 import com.example.DoAn1.utils.UtilsHandleJwtToken;
@@ -51,6 +57,9 @@ public class FoodService {
 
     @Autowired
     private StatusFoodExcerciseRepository statusFoodExcerciseRepository;
+
+    @Autowired
+    private UserFoodRepository userFoodRepository;
 
     public ResponseEntity<Map<String, Object>> createFood(FoodCreationRequest foodCreationRequest) {
 
@@ -126,6 +135,69 @@ public class FoodService {
     public ResponseEntity getAllFood() {
         List<ResponseFoods> listResponseFoods = this.supportFoodService.createResponseAllFood();
         return ResponseEntity.ok().body(listResponseFoods);
+    }
+
+    public ResponseEntity getFoodInfoInSystem(HttpServletRequest httpServletRequest, String foodId) {
+        // get user
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        User user = this.userRepository.findById(userId).get();
+        // get food
+        Food food = this.foodRepository.findById(foodId).get();
+        // create Response
+        ResponseFoodDetailInSystem responseFoodDetailInSystem = ResponseFoodDetailInSystem.builder()
+                .weight(user.getWeight())
+                .height(user.getHeight())
+                .calories((float) food.getCalories())
+                .carb((float) food.getCarb())
+                .protein((float) food.getProtein())
+                .fat((float) food.getFat())
+                .walking(4)
+                .running(9)
+                .skipping(8)
+                .swimming(10)
+                .riding(8)
+                .build();
+        // return
+        return ResponseEntity.ok().body(responseFoodDetailInSystem);
+    }
+
+    public ResponseEntity userCreateFood(HttpServletRequest httpServletRequest,
+            UserCreateFoodRequest userCreateFoodRequest) {
+        // get user
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        User user = this.userRepository.findById(userId).get();
+        // check food name
+        if (this.supportFoodService.checkFoodName(userId, userCreateFoodRequest.getName())) {
+            // save in user food
+            this.supportFoodService.saveFoodInUserFood(userCreateFoodRequest, userId);
+            // save in user history
+            this.supportFoodService.saveFoodInUserHistory(userId, userCreateFoodRequest);
+        }
+        return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UserCreateFood));
+    }
+
+    public ResponseEntity getListUserFood(HttpServletRequest httpServletRequest) {
+        // get userId
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        // get list user food
+        List<UserFood> listUserFood = this.userFoodRepository.getListUserFood(userId);
+        // convert response user food
+        List<ResponseUserFood> listResponseUserFoods = new ArrayList<>();
+        for (int i = 0; i < listUserFood.size(); i++) {
+            ResponseUserFood responseUserFood = ResponseUserFood.builder()
+                    .name(listUserFood.get(i).getUserFoodId().getUserFoodName())
+                    .calories(listUserFood.get(i).getCalories())
+                    .protein(listUserFood.get(i).getProtein())
+                    .fat(listUserFood.get(i).getFat())
+                    .carb(listUserFood.get(i).getCarb())
+                    .build();
+            listResponseUserFoods.add(responseUserFood);
+        }
+        // return
+        return ResponseEntity.ok().body(listResponseUserFoods);
     }
 
 }

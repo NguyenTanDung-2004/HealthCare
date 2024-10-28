@@ -32,5 +32,7 @@ public class ResponseUserInfo {
     private float totalFat;
     private float totalProtein;
     private float totalCarb;
+    // add currentBurned
+    private float currentBurned;
 
 }

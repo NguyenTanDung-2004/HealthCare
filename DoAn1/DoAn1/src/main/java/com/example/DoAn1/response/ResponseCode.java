@@ -27,7 +27,9 @@ public enum ResponseCode {
     UpdateFood(1000, "update food successfully!"),
     LikeFood(1000, "Like food successfully!"),
     VoteFood(1000, "vote food successfully!"),
-    UpdateUserDiet(1000, "update user diet successfully!");
+    UpdateUserDiet(1000, "update user diet successfully!"),
+    RecordExercise(1000, "record exercise successfully!"),
+    UserCreateFood(1000, "User creates food successfully!");
 
     private int code;
     private String message;

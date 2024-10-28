@@ -19,6 +19,7 @@ import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.repository.FoodRepository;
 import com.example.DoAn1.request.FoodCreationRequest;
 import com.example.DoAn1.request.FoodEditRequest;
+import com.example.DoAn1.request.UserCreateFoodRequest;
 import com.example.DoAn1.service.FoodService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -88,6 +89,23 @@ public class FoodController {
     @GetMapping("/getAllFoods")
     public ResponseEntity getFoods() {
         return this.foodService.getAllFood();
+    }
+
+    @GetMapping("/getFoodDetailsInSystem")
+    public ResponseEntity getFoodInfoInSystem(HttpServletRequest httpServletRequest,
+            @RequestParam(name = "foodId") String foodId) {
+        return this.foodService.getFoodInfoInSystem(httpServletRequest, foodId);
+    }
+
+    @PostMapping("/userCreateFood")
+    public ResponseEntity userCreateFood(HttpServletRequest httpServletRequest,
+            @RequestBody UserCreateFoodRequest userCreateFoodRequest) {
+        return this.foodService.userCreateFood(httpServletRequest, userCreateFoodRequest);
+    }
+
+    @GetMapping("/getListUserFood")
+    public ResponseEntity getListUserFood(HttpServletRequest httpServletRequest) {
+        return this.foodService.getListUserFood(httpServletRequest);
     }
 
 }

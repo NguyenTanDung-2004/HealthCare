@@ -20,7 +20,8 @@ public enum ExceptionCode {
     EmailIsNotExits(1001, "email is not exits", HttpStatus.BAD_GATEWAY),
     SendEmailFail(1001, "send email fail", HttpStatus.BAD_GATEWAY),
     CodeWrong(1001, "code wrong", HttpStatus.BAD_REQUEST),
-    PasswordWrong(1001, "password wrong", HttpStatus.BAD_REQUEST);
+    PasswordWrong(1001, "password wrong", HttpStatus.BAD_REQUEST),
+    FoodNameIsExist(1001, "Food Name is exist", HttpStatus.BAD_REQUEST);
 
     private int code;
     private String message;
