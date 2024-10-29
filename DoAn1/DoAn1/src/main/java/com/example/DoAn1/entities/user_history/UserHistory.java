@@ -75,20 +75,11 @@ public class UserHistory {
     @Column(columnDefinition = "blob") // Use "BLOB" if you expect large data
     private String foodsJson;
 
-    @Column(columnDefinition = "blob") // Use "BLOB" if you expect large data
-    private List<String> listFoodNames = new ArrayList<>(); // in user food
+    @Column(columnDefinition = "blob")
+    private List<String> listFoodInSystem; // this column will be used to save all data about system food as json
 
     @Column(columnDefinition = "blob")
-    private List<Integer> listFlags = new ArrayList<>(); // in user food
-
-    @Column(columnDefinition = "blob") // Use "BLOB" if you expect large data
-    private List<String> listSystemFoodId = new ArrayList<>(); // in system food
-
-    @Column(columnDefinition = "blob") // Use "BLOB" if you expect large data
-    private List<String> listFlagsSystem = new ArrayList<>(); // in system food
-
-    @Column(columnDefinition = "blob") // Use "BLOB" if you expect large data
-    private List<Float> listWeightSystem = new ArrayList<>(); // in system food
+    private List<String> listUserFood; // this column will be used to save all data about user food as json
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -117,27 +108,5 @@ public class UserHistory {
         }
     }
 
-    // Custom getter: converts JSON to Map when accessing the field
-    public Map<String, Integer> getFoodsFromFoodsJson() {
-        if (foodsJson == null || foodsJson.isEmpty()) {
-            return new HashMap<>();
-        }
-        try {
-            return mapper.readValue(foodsJson, new TypeReference<Map<String, Integer>>() {
-            });
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return new HashMap<>();
-        }
-    }
-
-    // Custom setter: converts Map to JSON when setting the field
-    public void setFoodsJsonFromFoods(Map<String, Integer> foods) {
-        try {
-            this.foodsJson = mapper.writeValueAsString(foods);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            this.exercisesJson = null;
-        }
-    }
+    //
 }

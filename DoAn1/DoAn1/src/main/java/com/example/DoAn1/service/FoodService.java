@@ -172,9 +172,11 @@ public class FoodService {
         if (this.supportFoodService.checkFoodName(userId, userCreateFoodRequest.getName())) {
             // save in user food
             this.supportFoodService.saveFoodInUserFood(userCreateFoodRequest, userId);
-            // save in user history
+            // save in user history, // update current calories, current fat, current carb,
+            // current protein.
             this.supportFoodService.saveFoodInUserHistory(userId, userCreateFoodRequest);
         }
+
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UserCreateFood));
     }
 
@@ -193,6 +195,7 @@ public class FoodService {
                     .protein(listUserFood.get(i).getProtein())
                     .fat(listUserFood.get(i).getFat())
                     .carb(listUserFood.get(i).getCarb())
+                    .weight(listUserFood.get(i).getWeight())
                     .build();
             listResponseUserFoods.add(responseUserFood);
         }

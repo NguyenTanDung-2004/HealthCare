@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.example.DoAn1.Model.DayMonthYear;
 import com.example.DoAn1.Model.Meal;
 import com.example.DoAn1.Model.RelatedFood;
+import com.example.DoAn1.Model.SavedFood;
 import com.example.DoAn1.Model.Vote;
 import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.entities.User;
@@ -36,6 +37,7 @@ import com.example.DoAn1.request.FoodEditRequest;
 import com.example.DoAn1.request.UserCreateFoodRequest;
 import com.example.DoAn1.response.ResponseFoodDetail;
 import com.example.DoAn1.response.ResponseFoods;
+import com.example.DoAn1.utils.UtilsHandleJson;
 
 import java.util.ArrayList;
 import java.io.IOException;
@@ -395,21 +397,46 @@ public class SupportFoodService {
     public void saveFoodInUserHistory(String userId, UserCreateFoodRequest userCreateFoodRequest) {
         Date date = new Date();
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        UserHistory userHistory = UserHistory.builder()
-                .userHistoryId(UserHistoryId.builder()
-                        .day(localDate.getDayOfMonth())
-                        .month(localDate.getMonthValue())
-                        .year(localDate.getYear())
-                        .userId(userId)
-                        .build())
+        // get user history
+        UserHistoryId userHistoryId = UserHistoryId.builder()
+                .day(localDate.getDayOfMonth())
+                .month(localDate.getMonthValue())
+                .year(localDate.getYear())
+                .userId(userId)
                 .build();
-        if (userHistory.getListFoodNames() == null) {
-            userHistory.setListFoodNames(new ArrayList<>());
-            userHistory.setListFlags(new ArrayList<>());
+        UserHistory userHistory = this.userHistoryRepository.findById(userHistoryId).get();
+        // create Stringjson from savedFood
+        String savedFoodJson = createJsonStringFromSavedFood(userCreateFoodRequest);
+        // update list user food
+        if (userHistory.getListUserFood() == null) {
+            userHistory.setListUserFood(new ArrayList<>());
         }
-        userHistory.getListFoodNames().add(userCreateFoodRequest.getName());
-        userHistory.getListFlags().add(userCreateFoodRequest.getFlag());
+        userHistory.getListUserFood().add(savedFoodJson);
+        // update current calories, current fat, protein, carb
+        if (userHistory.getCurrentCalories() == null) {
+            userHistory.setCurrentCalories((float) 0);
+            userHistory.setCurrentFat((float) 0);
+            userHistory.setCurrentCarb((float) 0);
+            userHistory.setCurrentProtein((float) 0);
+        }
+        userHistory.setCurrentCalories(userHistory.getCurrentCalories() + userCreateFoodRequest.getCalories());
+        userHistory.setCurrentFat(userHistory.getCurrentFat() + userCreateFoodRequest.getFat());
+        userHistory.setCurrentCarb(userHistory.getCurrentCarb() + userCreateFoodRequest.getCarb());
+        userHistory.setCurrentProtein(userHistory.getCurrentProtein() + userCreateFoodRequest.getProtein());
         this.userHistoryRepository.save(userHistory);
+    }
+
+    public String createJsonStringFromSavedFood(UserCreateFoodRequest userCreateFoodRequest) {
+        SavedFood savedFood = SavedFood.builder()
+                .foodName(userCreateFoodRequest.getName())
+                .weight(userCreateFoodRequest.getWeight())
+                .calories(userCreateFoodRequest.getCalories())
+                .carb(userCreateFoodRequest.getCarb())
+                .fat(userCreateFoodRequest.getFat())
+                .flag(userCreateFoodRequest.getFlag())
+                .protein(userCreateFoodRequest.getProtein())
+                .build();
+        return UtilsHandleJson.convertSavedFoodToString(savedFood);
     }
 
 }

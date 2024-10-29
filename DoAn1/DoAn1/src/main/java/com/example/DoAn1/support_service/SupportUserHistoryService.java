@@ -3,13 +3,22 @@ package com.example.DoAn1.support_service;
 import org.springframework.stereotype.Component;
 
 import com.example.DoAn1.Model.DayMonthYear;
+import com.example.DoAn1.Model.SavedFood;
 import com.example.DoAn1.entities.Excercise;
+import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.entities.User;
+import com.example.DoAn1.entities.user_food.UserFood;
 import com.example.DoAn1.entities.user_history.UserHistory;
+import com.example.DoAn1.request.RequestUpdateFoodIn1Meal;
+import com.example.DoAn1.response.ResponseFoodInMeal;
+import com.example.DoAn1.utils.UtilsHandleJson;
+
 import java.util.Map;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
+import java.util.ArrayList;
 
 @Component
 public class SupportUserHistoryService {
@@ -43,5 +52,154 @@ public class SupportUserHistoryService {
 
     public int caculateCaloriesBasedOnMet(User user, Excercise excercise) {
         return (int) ((user.getWeight() * excercise.getMet() * excercise.getTime()) / 3600);
+    }
+
+    public void updateCurrentValue(Food food, UserHistory userHistory, float weight) {
+        float percent = weight / 100;
+        if (userHistory.getCurrentCalories() == null) {
+            userHistory.setCurrentCalories((float) 0);
+            userHistory.setCurrentFat((float) 0);
+            userHistory.setCurrentCarb((float) 0);
+            userHistory.setCurrentProtein((float) 0);
+        }
+        userHistory.setCurrentCalories((float) (userHistory.getCurrentCalories() + percent * food.getCalories()));
+        userHistory.setCurrentFat((float) (userHistory.getCurrentFat() + percent * food.getFat()));
+        userHistory.setCurrentCarb((float) (userHistory.getCurrentCarb() + percent * food.getCarb()));
+        userHistory.setCurrentProtein((float) (userHistory.getCurrentProtein() + percent * food.getProtein()));
+    }
+
+    public String createJsonStringFromSavedFood(Food food, float weight, int flag) {
+        float percent = weight / 100;
+        SavedFood savedFood = SavedFood.builder()
+                .foodName(food.getName())
+                .weight(weight)
+                .calories((float) (percent * food.getCalories()))
+                .carb((float) (percent * food.getCarb()))
+                .fat((float) (percent * food.getFat()))
+                .protein((float) (percent * food.getProtein()))
+                .flag(flag)
+                .build();
+        return UtilsHandleJson.convertSavedFoodToString(savedFood);
+    }
+
+    public void updateCurrentValue(UserFood userFood, UserHistory userHistory, float weight) {
+        float percent = weight / userFood.getWeight();
+        if (userHistory.getCurrentCalories() == null) {
+            userHistory.setCurrentCalories((float) 0);
+            userHistory.setCurrentFat((float) 0);
+            userHistory.setCurrentCarb((float) 0);
+            userHistory.setCurrentProtein((float) 0);
+        }
+        userHistory.setCurrentCalories((float) (userHistory.getCurrentCalories() + percent * userFood.getCalories()));
+        userHistory.setCurrentFat((float) (userHistory.getCurrentFat() + percent * userFood.getFat()));
+        userHistory.setCurrentCarb((float) (userHistory.getCurrentCarb() + percent * userFood.getCarb()));
+        userHistory.setCurrentProtein((float) (userHistory.getCurrentProtein() + percent * userFood.getProtein()));
+    }
+
+    public String createJsonStringFromSavedFood(UserFood food, float weight, int flag) {
+        float percent = weight / food.getWeight();
+        SavedFood savedFood = SavedFood.builder()
+                .foodName(food.getUserFoodId().getUserFoodName())
+                .weight(weight)
+                .calories((float) (percent * food.getCalories()))
+                .carb((float) (percent * food.getCarb()))
+                .fat((float) (percent * food.getFat()))
+                .protein((float) (percent * food.getProtein()))
+                .flag(flag)
+                .build();
+        return UtilsHandleJson.convertSavedFoodToString(savedFood);
+    }
+
+    public ResponseFoodInMeal createResponseFoodInMeal(String json, int flagSystem, int flagMeal) {
+        SavedFood savedFood = UtilsHandleJson.convertStringToSavedFood(json);
+        if (savedFood.getFlag() != flagMeal) {
+            return null;
+        }
+        return ResponseFoodInMeal.builder()
+                .name(savedFood.getFoodName())
+                .fat(savedFood.getFat())
+                .carb(savedFood.getCarb())
+                .protein(savedFood.getProtein())
+                .calories(savedFood.getCalories())
+                .weight(savedFood.getWeight())
+                .flagSystem(flagSystem)
+                .build();
+    }
+
+    public List<ResponseFoodInMeal> createListResponseFoodInMeal(List<String> system, List<String> user,
+            int flagSystem) {
+        List<ResponseFoodInMeal> list = new ArrayList<>();
+
+        for (int i = 0; i < system.size(); i++) {
+            ResponseFoodInMeal responseFoodInMeal = createResponseFoodInMeal(system.get(i), 1, flagSystem);
+            if (responseFoodInMeal != null) {
+                list.add(responseFoodInMeal);
+            }
+        }
+
+        for (int i = 0; i < user.size(); i++) {
+            ResponseFoodInMeal responseFoodInMeal = createResponseFoodInMeal(user.get(i), 2, flagSystem);
+            if (responseFoodInMeal != null) {
+                list.add(responseFoodInMeal);
+            }
+        }
+
+        return list;
+    }
+
+    public void update(List<String> list, RequestUpdateFoodIn1Meal requestUpdateFoodIn1Meal, UserHistory userHistory) {
+        for (int i = 0; i < list.size(); i++) {
+            SavedFood savedFood = UtilsHandleJson.convertStringToSavedFood(list.get(i));
+            if (savedFood.getCalories() == requestUpdateFoodIn1Meal.getOldCalories() &&
+                    savedFood.getFoodName().equals(requestUpdateFoodIn1Meal.getOldName()) &&
+                    savedFood.getWeight() == requestUpdateFoodIn1Meal.getOldWeight() &&
+                    savedFood.getCarb() == requestUpdateFoodIn1Meal.getOldCarb() &&
+                    savedFood.getFat() == requestUpdateFoodIn1Meal.getOldFat() &&
+                    savedFood.getProtein() == requestUpdateFoodIn1Meal.getOldProtein() &&
+                    savedFood.getFlag() == requestUpdateFoodIn1Meal.getFlagMeal()) {
+                // create new savedfood
+                SavedFood newSavedFood = createSavedFood(requestUpdateFoodIn1Meal);
+                String json = UtilsHandleJson.convertSavedFoodToString(newSavedFood);
+                // replace - update list json
+                list.set(i, json);
+                // update current value of user
+                userHistory.setCurrentCalories(userHistory.getCurrentCalories()
+                        - requestUpdateFoodIn1Meal.getOldCalories() + newSavedFood.getCalories());
+                userHistory.setCurrentCarb(userHistory.getCurrentCarb()
+                        - requestUpdateFoodIn1Meal.getOldCarb() + newSavedFood.getCarb());
+                userHistory.setCurrentFat(userHistory.getCurrentFat()
+                        - requestUpdateFoodIn1Meal.getOldFat() + newSavedFood.getFat());
+                userHistory.setCurrentProtein(userHistory.getCurrentProtein()
+                        - requestUpdateFoodIn1Meal.getOldProtein() + newSavedFood.getProtein());
+                return;
+            }
+        }
+    }
+
+    public SavedFood createSavedFood(RequestUpdateFoodIn1Meal requestUpdateFoodIn1Meal) {
+        SavedFood savedFood = new SavedFood();
+        if (requestUpdateFoodIn1Meal.getFlagSystem() == 1) {
+            float percent = requestUpdateFoodIn1Meal.getNewWeight() / requestUpdateFoodIn1Meal.getOldWeight();
+            savedFood = SavedFood.builder()
+                    .foodName(requestUpdateFoodIn1Meal.getNewName())
+                    .weight(percent * requestUpdateFoodIn1Meal.getOldWeight())
+                    .calories(percent * requestUpdateFoodIn1Meal.getOldCalories())
+                    .carb(percent * requestUpdateFoodIn1Meal.getOldCarb())
+                    .fat(percent * requestUpdateFoodIn1Meal.getOldFat())
+                    .protein(percent * requestUpdateFoodIn1Meal.getOldProtein())
+                    .flag(requestUpdateFoodIn1Meal.getFlagMeal())
+                    .build();
+        } else {
+            savedFood = SavedFood.builder()
+                    .foodName(requestUpdateFoodIn1Meal.getNewName())
+                    .weight(requestUpdateFoodIn1Meal.getNewWeight())
+                    .calories(requestUpdateFoodIn1Meal.getNewCalories())
+                    .carb(requestUpdateFoodIn1Meal.getNewCarb())
+                    .fat(requestUpdateFoodIn1Meal.getNewFat())
+                    .protein(requestUpdateFoodIn1Meal.getNewProtein())
+                    .flag(requestUpdateFoodIn1Meal.getFlagMeal())
+                    .build();
+        }
+        return savedFood;
     }
 }

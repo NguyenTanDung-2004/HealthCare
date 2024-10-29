@@ -1,4 +1,4 @@
-package com.example.DoAn1.response;
+package com.example.DoAn1.Model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseUserFood {
-    private String name;
-    private float calories;
-    private float protein;
-    private float fat;
-    private float carb;
+public class SavedFood {
+    private String foodName;
     private float weight;
+    private float calories;
+    private float carb;
+    private float fat;
+    private float protein;
+    private int flag; // 1 - sang, 2 trua, 3 toi, 4 phu
 }

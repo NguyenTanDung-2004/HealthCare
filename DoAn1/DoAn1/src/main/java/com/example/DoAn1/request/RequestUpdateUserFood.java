@@ -9,8 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestAddSystemFood {
-    private String foodId;
+public class RequestUpdateUserFood {
+    private String newName;
+    private String oldName;
+    private float fat;
+    private float calories;
+    private float protein;
+    private float carb;
     private float weight;
-    private int flag; // 1 - sang, 2 - trua, 3 - toi, 4 - phu
 }

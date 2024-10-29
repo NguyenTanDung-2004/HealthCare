@@ -5,12 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestAddSystemFood {
-    private String foodId;
+@Data
+public class RequestAddUserFoodToMeal {
+    private String foodName;
     private float weight;
-    private int flag; // 1 - sang, 2 - trua, 3 - toi, 4 - phu
+    private int flag;
 }
