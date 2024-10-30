@@ -12,6 +12,7 @@ import com.example.DoAn1.entities.user_history.UserHistory;
 import com.example.DoAn1.request.RequestDeleteFoodInMeal;
 import com.example.DoAn1.request.RequestUpdateFoodIn1Meal;
 import com.example.DoAn1.response.ResponseFoodInMeal;
+import com.example.DoAn1.response.ResponseNutritionProfile;
 import com.example.DoAn1.utils.UtilsHandleJson;
 
 import java.util.Map;
@@ -248,5 +249,59 @@ public class SupportUserHistoryService {
                 .protein(requestDeleteFoodInMeal.getProtein())
                 .flag(requestDeleteFoodInMeal.getFlagMeal())
                 .build();
+    }
+
+    public ResponseNutritionProfile createResponseNutritionProfile(UserHistory userHistory) {
+        // get userHistory
+        DayMonthYear currentDayMonthYear = getCurrentDayMonthYear();
+        if (userHistory.getUserHistoryId().getDay() != currentDayMonthYear.getDay() ||
+                userHistory.getUserHistoryId().getMonth() != currentDayMonthYear.getMonth() ||
+                userHistory.getUserHistoryId().getYear() != currentDayMonthYear.getYear()) {
+            return ResponseNutritionProfile.builder()
+                    .totalCalories(userHistory.getTotalCalories())
+                    .totalFat(userHistory.getTotalFat())
+                    .totalCarb(userHistory.getTotalCarb())
+                    .totalProtein(userHistory.getTotalProtein())
+                    .currentCalories(userHistory.getCurrentCalories())
+                    .currentFat(userHistory.getCurrentFat())
+                    .currentCarb(userHistory.getCurrentCarb())
+                    .currentProtein(userHistory.getCurrentProtein())
+                    .diet(userHistory.getFlagDiet())
+                    .listFoodInMorning(createListFood(1, userHistory))
+                    .listFoodInLunch(createListFood(2, userHistory))
+                    .listFoodInAfternoon(createListFood(3, userHistory))
+                    .listFoodInExtra(createListFood(4, userHistory))
+                    .build();
+        } else {
+            return ResponseNutritionProfile.builder()
+                    .totalCalories(userHistory.getTotalCalories())
+                    .totalFat(userHistory.getTotalFat())
+                    .totalCarb(userHistory.getTotalCarb())
+                    .totalProtein(userHistory.getTotalProtein())
+                    .currentCalories(userHistory.getCurrentCalories())
+                    .currentFat(userHistory.getCurrentFat())
+                    .currentCarb(userHistory.getCurrentCarb())
+                    .currentProtein(userHistory.getCurrentProtein())
+                    .diet(userHistory.getFlagDiet())
+                    .build();
+        }
+    }
+
+    public List<SavedFood> createListFood(int flagMeal, UserHistory userHistory) {
+        List<SavedFood> result = new ArrayList<>();
+        result.addAll(createListFood(flagMeal, userHistory.getListFoodInSystem()));
+        result.addAll(createListFood(flagMeal, userHistory.getListUserFood()));
+        return result;
+    }
+
+    public List<SavedFood> createListFood(int flagMeal, List<String> list) {
+        List<SavedFood> result = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            SavedFood savedFood = UtilsHandleJson.convertStringToSavedFood(list.get(i));
+            if (savedFood.getFlag() == flagMeal) {
+                result.add(savedFood);
+            }
+        }
+        return result;
     }
 }

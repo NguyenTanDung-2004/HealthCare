@@ -24,6 +24,7 @@ import com.example.DoAn1.request.RequestDeleteFoodInMeal;
 import com.example.DoAn1.request.RequestUpdateFoodIn1Meal;
 import com.example.DoAn1.response.ResponseCode;
 import com.example.DoAn1.response.ResponseFoodInMeal;
+import com.example.DoAn1.response.ResponseNutritionProfile;
 import com.example.DoAn1.response.ResponseUserFoodDetail;
 import com.example.DoAn1.support_service.SupportUserHistoryService;
 import com.example.DoAn1.support_service.SupportUserService;
@@ -280,5 +281,20 @@ public class UserHistoryService {
         // return
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UserDeleteFoodInMeal));
 
+    }
+
+    public ResponseEntity getNutritionProfile(HttpServletRequest httpServletRequest, int day, int month, int year) {
+        // get user id
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        // get user history
+        UserHistoryId userHistoryId = new UserHistoryId(day, month,
+                year, userId);
+        UserHistory userHistory = this.userHistoryRepository.findById(userHistoryId).get();
+        // create response
+        ResponseNutritionProfile responseNutritionProfile = this.supportUserHistoryService
+                .createResponseNutritionProfile(userHistory);
+        // return
+        return ResponseEntity.ok().body(responseNutritionProfile);
     }
 }

@@ -75,4 +75,11 @@ public class UserHistoryController {
             @RequestBody RequestDeleteFoodInMeal requestDeleteFoodInMeal) {
         return this.userHistoryService.deleteFoodInMeal(httpServletRequest, requestDeleteFoodInMeal);
     }
+
+    @GetMapping("/getNutritionProfile")
+    public ResponseEntity getNutritionProfile(HttpServletRequest httpServletRequest,
+            @RequestParam(name = "day") int day,
+            @RequestParam(name = "month") int month, @RequestParam(name = "year") int year) {
+        return this.userHistoryService.getNutritionProfile(httpServletRequest, day, month, year);
+    }
 }
