@@ -9,6 +9,7 @@ import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.entities.User;
 import com.example.DoAn1.entities.user_food.UserFood;
 import com.example.DoAn1.entities.user_history.UserHistory;
+import com.example.DoAn1.request.RequestDeleteFoodInMeal;
 import com.example.DoAn1.request.RequestUpdateFoodIn1Meal;
 import com.example.DoAn1.response.ResponseFoodInMeal;
 import com.example.DoAn1.utils.UtilsHandleJson;
@@ -130,17 +131,21 @@ public class SupportUserHistoryService {
             int flagSystem) {
         List<ResponseFoodInMeal> list = new ArrayList<>();
 
-        for (int i = 0; i < system.size(); i++) {
-            ResponseFoodInMeal responseFoodInMeal = createResponseFoodInMeal(system.get(i), 1, flagSystem);
-            if (responseFoodInMeal != null) {
-                list.add(responseFoodInMeal);
+        if (system != null && system.size() > 0) {
+            for (int i = 0; i < system.size(); i++) {
+                ResponseFoodInMeal responseFoodInMeal = createResponseFoodInMeal(system.get(i), 1, flagSystem);
+                if (responseFoodInMeal != null) {
+                    list.add(responseFoodInMeal);
+                }
             }
         }
 
-        for (int i = 0; i < user.size(); i++) {
-            ResponseFoodInMeal responseFoodInMeal = createResponseFoodInMeal(user.get(i), 2, flagSystem);
-            if (responseFoodInMeal != null) {
-                list.add(responseFoodInMeal);
+        if (user != null && user.size() > 0) {
+            for (int i = 0; i < user.size(); i++) {
+                ResponseFoodInMeal responseFoodInMeal = createResponseFoodInMeal(user.get(i), 2, flagSystem);
+                if (responseFoodInMeal != null) {
+                    list.add(responseFoodInMeal);
+                }
             }
         }
 
@@ -201,5 +206,47 @@ public class SupportUserHistoryService {
                     .build();
         }
         return savedFood;
+    }
+
+    public void deleteFoodInJson(UserHistory userHistory, List<String> list,
+            RequestDeleteFoodInMeal requestDeleteFoodInMeal) {
+        for (int i = 0; i < list.size(); i++) {
+            SavedFood savedFood = UtilsHandleJson.convertStringToSavedFood(list.get(i));
+            if (savedFood.getCalories() == requestDeleteFoodInMeal.getCalories() &&
+                    savedFood.getFoodName().equals(requestDeleteFoodInMeal.getName()) &&
+                    savedFood.getWeight() == requestDeleteFoodInMeal.getWeight() &&
+                    savedFood.getCarb() == requestDeleteFoodInMeal.getCarb() &&
+                    savedFood.getFat() == requestDeleteFoodInMeal.getFat() &&
+                    savedFood.getProtein() == requestDeleteFoodInMeal.getProtein() &&
+                    savedFood.getFlag() == requestDeleteFoodInMeal.getFlagMeal()) {
+                // create new savedfood
+                SavedFood savedFood1 = createSavedFood(requestDeleteFoodInMeal);
+                String json = UtilsHandleJson.convertSavedFoodToString(savedFood1);
+                // remove
+                list.remove(i);
+                // update current value of user
+                userHistory.setCurrentCalories(userHistory.getCurrentCalories()
+                        - savedFood1.getCalories());
+                userHistory.setCurrentCarb(userHistory.getCurrentCarb()
+                        - savedFood1.getCarb());
+                userHistory.setCurrentFat(userHistory.getCurrentFat()
+                        - savedFood1.getFat());
+                userHistory.setCurrentProtein(userHistory.getCurrentProtein()
+                        - savedFood1.getProtein());
+                return;
+            }
+        }
+    }
+
+    public SavedFood createSavedFood(RequestDeleteFoodInMeal requestDeleteFoodInMeal) {
+        return SavedFood.builder()
+                .foodName(requestDeleteFoodInMeal.getName())
+                .weight(requestDeleteFoodInMeal.getWeight())
+                .calories(requestDeleteFoodInMeal.getCalories())
+                .carb(requestDeleteFoodInMeal.getCarb())
+                .fat(requestDeleteFoodInMeal.getFat())
+                .protein(requestDeleteFoodInMeal.getProtein())
+                .flag(requestDeleteFoodInMeal.getFlagMeal())
+                .build();
     }
 }

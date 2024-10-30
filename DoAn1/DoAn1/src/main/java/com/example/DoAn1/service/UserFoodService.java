@@ -84,4 +84,22 @@ public class UserFoodService {
         // return
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UserUpdateFood));
     }
+
+    public ResponseEntity deleteUserFood(HttpServletRequest httpServletRequest, String foodName) {
+        // get userId
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+
+        // create user food id
+        UserFoodId userFoodId = UserFoodId.builder()
+                .userId(userId)
+                .userFoodName(foodName)
+                .build();
+        // get user food
+        UserFood userFood = this.userFoodRepository.findById(userFoodId).get();
+        // delete
+        this.userFoodRepository.delete(userFood);
+        // return
+        return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.DeleteUserFood));
+    }
 }

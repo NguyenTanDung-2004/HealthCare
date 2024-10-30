@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.DoAn1.Model.SavedFood;
 import com.example.DoAn1.request.RequestAddSystemFood;
 import com.example.DoAn1.request.RequestAddUserFoodToMeal;
+import com.example.DoAn1.request.RequestDeleteFoodInMeal;
 import com.example.DoAn1.request.RequestUpdateFoodIn1Meal;
 import com.example.DoAn1.service.UserHistoryService;
 
@@ -67,5 +68,11 @@ public class UserHistoryController {
     public ResponseEntity updateFoodInMeal(HttpServletRequest httpServletRequest,
             @RequestBody RequestUpdateFoodIn1Meal requestUpdateFoodIn1Meal) {
         return this.userHistoryService.updateFoodInMeal(httpServletRequest, requestUpdateFoodIn1Meal);
+    }
+
+    @PostMapping("/deleteFoodInMeal")
+    public ResponseEntity deleteFoodInMeal(HttpServletRequest httpServletRequest,
+            @RequestBody RequestDeleteFoodInMeal requestDeleteFoodInMeal) {
+        return this.userHistoryService.deleteFoodInMeal(httpServletRequest, requestDeleteFoodInMeal);
     }
 }

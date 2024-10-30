@@ -20,6 +20,7 @@ import com.example.DoAn1.repository.UserHistoryRepository;
 import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.request.RequestAddSystemFood;
 import com.example.DoAn1.request.RequestAddUserFoodToMeal;
+import com.example.DoAn1.request.RequestDeleteFoodInMeal;
 import com.example.DoAn1.request.RequestUpdateFoodIn1Meal;
 import com.example.DoAn1.response.ResponseCode;
 import com.example.DoAn1.response.ResponseFoodInMeal;
@@ -247,5 +248,37 @@ public class UserHistoryService {
         this.userHistoryRepository.save(userHistory);
         // return
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UserUpdateFoodInMeal));
+    }
+
+    public ResponseEntity deleteFoodInMeal(HttpServletRequest httpServletRequest,
+            RequestDeleteFoodInMeal requestDeleteFoodInMeal) {
+        // get user id
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        // get userHistory
+        DayMonthYear currentDayMonthYear = this.supportUserHistoryService.getCurrentDayMonthYear();
+        UserHistoryId userHistoryId = new UserHistoryId(currentDayMonthYear.getDay(), currentDayMonthYear.getMonth(),
+                currentDayMonthYear.getYear(), userId);
+        UserHistory userHistory = this.userHistoryRepository.findById(userHistoryId).get();
+        // get list json
+        List<String> listFoodJson = new ArrayList<>();
+        if (requestDeleteFoodInMeal.getFlagSystem() == 1) {
+            listFoodJson = userHistory.getListFoodInSystem();
+        } else {
+            listFoodJson = userHistory.getListUserFood();
+        }
+        // delete food in list
+        this.supportUserHistoryService.deleteFoodInJson(userHistory, listFoodJson, requestDeleteFoodInMeal);
+        // update user history
+        if (requestDeleteFoodInMeal.getFlagSystem() == 1) {
+            userHistory.setListFoodInSystem(listFoodJson);
+        } else {
+            userHistory.setListUserFood(listFoodJson);
+        }
+        // save
+        this.userHistoryRepository.save(userHistory);
+        // return
+        return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UserDeleteFoodInMeal));
+
     }
 }

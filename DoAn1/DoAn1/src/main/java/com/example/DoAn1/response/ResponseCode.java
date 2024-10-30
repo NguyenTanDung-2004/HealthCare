@@ -33,7 +33,9 @@ public enum ResponseCode {
     UserAddSystemFood(1000, "User adds system food successfully!"),
     UserUpdateFood(1000, "user update food successfully!"),
     UserAddUserFoodToMeal(1000, "user adds user food successfully!"),
-    UserUpdateFoodInMeal(1000, "user updates food in meal successfully!");
+    UserUpdateFoodInMeal(1000, "user updates food in meal successfully!"),
+    UserDeleteFoodInMeal(1000, "user delete food in meal successfully!"),
+    DeleteUserFood(1000, "user deletes user food successfully!");
 
     private int code;
     private String message;
