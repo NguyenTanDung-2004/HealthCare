@@ -23,9 +23,12 @@ import com.example.DoAn1.request.RequestAddUserFoodToMeal;
 import com.example.DoAn1.request.RequestDeleteFoodInMeal;
 import com.example.DoAn1.request.RequestUpdateFoodIn1Meal;
 import com.example.DoAn1.response.ResponseCode;
+import com.example.DoAn1.response.ResponseDateReport;
 import com.example.DoAn1.response.ResponseFoodInMeal;
 import com.example.DoAn1.response.ResponseNutritionProfile;
 import com.example.DoAn1.response.ResponseUserFoodDetail;
+import com.example.DoAn1.response.ResponseWeeklyReport;
+import com.example.DoAn1.response.ResponseYearReport;
 import com.example.DoAn1.support_service.SupportUserHistoryService;
 import com.example.DoAn1.support_service.SupportUserService;
 import com.example.DoAn1.utils.UtilsHandleJwtToken;
@@ -296,5 +299,48 @@ public class UserHistoryService {
                 .createResponseNutritionProfile(userHistory);
         // return
         return ResponseEntity.ok().body(responseNutritionProfile);
+    }
+
+    public ResponseEntity getDataForDateReport(HttpServletRequest httpServletRequest, int day, int month, int year) {
+        // get user id
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        User user = this.userRepository.findById(userId).get();
+        // get user history
+        UserHistoryId userHistoryId = new UserHistoryId(day, month,
+                year, userId);
+        UserHistory userHistory = this.userHistoryRepository.findById(userHistoryId).get();
+        // create response
+        ResponseDateReport responseDateReport = this.supportUserHistoryService.createResponseDateReport(userHistory,
+                user.getWeight());
+        // return
+        return ResponseEntity.ok().body(responseDateReport);
+    }
+
+    public ResponseEntity getDataForWeekReport(HttpServletRequest httpServletRequest) {
+        // get user id
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        // get list user history
+        List<UserHistory> listUserHistories = this.userHistoryRepository.getListUserHistory(userId);
+        // create response
+        List<ResponseWeeklyReport> response = this.supportUserHistoryService
+                .createResponseWeeklyReports(listUserHistories);
+        // return
+        return ResponseEntity.ok().body(response);
+    }
+
+    public ResponseEntity getDataForMonthReport(HttpServletRequest httpServletRequest, int month, int year) {
+        // get user id
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        User user = this.userRepository.findById(userId).get();
+        // get list user history
+        List<UserHistory> listUserHistories = this.userHistoryRepository.getListUserHistories(userId, month, year);
+        // create response
+        ResponseYearReport responseYearReport = this.supportUserHistoryService
+                .createResponseYearReport(listUserHistories, month, year, userId, user.getWeight());
+        // return
+        return ResponseEntity.ok().body(responseYearReport);
     }
 }

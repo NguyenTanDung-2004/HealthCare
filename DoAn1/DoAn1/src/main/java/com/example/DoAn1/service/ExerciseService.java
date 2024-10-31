@@ -155,4 +155,5 @@ public class ExerciseService {
 
         return ResponseEntity.ok().body(listResponseExercises);
     }
+
 }

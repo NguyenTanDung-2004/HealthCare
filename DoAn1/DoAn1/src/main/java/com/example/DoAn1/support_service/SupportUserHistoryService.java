@@ -1,18 +1,28 @@
 package com.example.DoAn1.support_service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.DoAn1.Model.DayMonthYear;
+import com.example.DoAn1.Model.ExerciseInReport;
 import com.example.DoAn1.Model.SavedFood;
+import com.example.DoAn1.Model.year_report.CaloriesChart;
+import com.example.DoAn1.Model.year_report.ExerciseChart;
+import com.example.DoAn1.Model.year_report.FatCarbProteinChart;
 import com.example.DoAn1.entities.Excercise;
 import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.entities.User;
 import com.example.DoAn1.entities.user_food.UserFood;
 import com.example.DoAn1.entities.user_history.UserHistory;
+import com.example.DoAn1.repository.ExerciseRepository;
+import com.example.DoAn1.repository.UserHistoryRepository;
 import com.example.DoAn1.request.RequestDeleteFoodInMeal;
 import com.example.DoAn1.request.RequestUpdateFoodIn1Meal;
+import com.example.DoAn1.response.ResponseDateReport;
 import com.example.DoAn1.response.ResponseFoodInMeal;
 import com.example.DoAn1.response.ResponseNutritionProfile;
+import com.example.DoAn1.response.ResponseWeeklyReport;
+import com.example.DoAn1.response.ResponseYearReport;
 import com.example.DoAn1.utils.UtilsHandleJson;
 
 import java.util.Map;
@@ -24,6 +34,12 @@ import java.util.ArrayList;
 
 @Component
 public class SupportUserHistoryService {
+    @Autowired
+    private ExerciseRepository exerciseRepository;
+
+    @Autowired
+    private UserHistoryRepository userHistoryRepository;
+
     public void addExercise(String exerciseId, UserHistory userHistory) {
         Map<String, Integer> map = userHistory.getExercisesFromExerciseJson();
         if (map.get(exerciseId) == null) {
@@ -52,8 +68,8 @@ public class SupportUserHistoryService {
         }
     }
 
-    public int caculateCaloriesBasedOnMet(User user, Excercise excercise) {
-        return (int) ((user.getWeight() * excercise.getMet() * excercise.getTime()) / 3600);
+    public float caculateCaloriesBasedOnMet(User user, Excercise excercise) {
+        return (float) ((user.getWeight() * excercise.getMet() * excercise.getTime()) / 3600);
     }
 
     public void updateCurrentValue(Food food, UserHistory userHistory, float weight) {
@@ -304,4 +320,203 @@ public class SupportUserHistoryService {
         }
         return result;
     }
+
+    public ResponseDateReport createResponseDateReport(UserHistory userHistory, float weight) {
+        return ResponseDateReport.builder()
+                // calories
+                .totalCalories(userHistory.getTotalCalories())
+                .currentCalories(userHistory.getCurrentCalories())
+                .currentBurned(userHistory.getCurrentBurned())
+                // fat
+                .totalFat(userHistory.getTotalFat())
+                .fat(userHistory.getCurrentFat())
+                // protein
+                .totalProtein(userHistory.getTotalProtein())
+                .protein(userHistory.getTotalProtein())
+                // carb
+                .totalCarb(userHistory.getTotalCarb())
+                .carb(userHistory.getCurrentCarb())
+                // list exercise
+                .listExerciseInReport(createListExercise(userHistory, weight))
+                // list food
+                .listSavedFoods(createListSavedFoods(userHistory))
+                .build();
+    }
+
+    public List<ExerciseInReport> createListExercise(UserHistory userHistory, float weight) {
+        List<ExerciseInReport> listExerciseInReports = new ArrayList<>();
+        Map<String, Integer> map = userHistory.getExercisesFromExerciseJson();
+        // iterate map
+        for (String exerciseId : map.keySet()) {
+            int numberOfSets = map.get(exerciseId);
+            Excercise excercise = this.exerciseRepository.findById(exerciseId).get();
+            // calculate calories
+            float caloriesSet = (weight * excercise.getMet() * excercise.getTime()) / 3600;
+            ExerciseInReport exerciseInReport = ExerciseInReport.builder()
+                    .name(excercise.getName())
+                    .numberOfSets(numberOfSets)
+                    .met(excercise.getMet())
+                    .timeSet(excercise.getTime())
+                    .caloriesSet(caloriesSet)
+                    .totalCalories(caloriesSet * numberOfSets)
+                    .build();
+            // add to list
+            listExerciseInReports.add(exerciseInReport);
+        }
+        // return
+        return listExerciseInReports;
+    }
+
+    public List<SavedFood> createListSavedFoods(UserHistory userHistory) {
+        List<SavedFood> list = new ArrayList<>();
+
+        if (userHistory.getListFoodInSystem() != null && userHistory.getListFoodInSystem().size() > 0) {
+            for (int i = 0; i < userHistory.getListFoodInSystem().size(); i++) {
+                SavedFood savedFood = UtilsHandleJson
+                        .convertStringToSavedFood(userHistory.getListFoodInSystem().get(i));
+                list.add(savedFood);
+            }
+        }
+
+        if (userHistory.getListUserFood() != null && userHistory.getListUserFood().size() > 0) {
+            for (int i = 0; i < userHistory.getListUserFood().size(); i++) {
+                SavedFood savedFood = UtilsHandleJson
+                        .convertStringToSavedFood(userHistory.getListUserFood().get(i));
+                list.add(savedFood);
+            }
+        }
+
+        return list;
+    }
+
+    public List<ResponseWeeklyReport> createResponseWeeklyReports(List<UserHistory> listUserHistories) {
+        List<ResponseWeeklyReport> list = new ArrayList<>();
+        // iterate listUserHistories
+        for (int i = 0; i < listUserHistories.size(); i++) {
+            ResponseWeeklyReport responseWeeklyReport = createResponseWeeklyReport(listUserHistories.get(i));
+            list.add(responseWeeklyReport);
+        }
+        // return
+        return list;
+    }
+
+    public ResponseWeeklyReport createResponseWeeklyReport(UserHistory userHistory) {
+        return ResponseWeeklyReport.builder()
+                // total
+                .totalCalories(userHistory.getTotalCalories())
+                .totalFat(userHistory.getTotalFat())
+                .totalCarb(userHistory.getTotalCarb())
+                .totalProtein(userHistory.getTotalProtein())
+                // current
+                .currentCalories(userHistory.getCurrentCalories())
+                .currentFat(userHistory.getCurrentFat())
+                .currentCarb(userHistory.getCurrentCarb())
+                .currentProtein(userHistory.getCurrentProtein())
+                // burned
+                .currentBurned(userHistory.getCurrentBurned())
+                // date
+                .dayMonthYear(new DayMonthYear(userHistory.getUserHistoryId().getDay(),
+                        userHistory.getUserHistoryId().getMonth(), userHistory.getUserHistoryId().getYear()))
+                .build();
+    }
+
+    public ResponseYearReport createResponseYearReport(List<UserHistory> listUserHistories, int month, int year,
+            String userId, float weight) {
+        // create exerciseChart
+        List<ExerciseChart> listExerciseCharts = new ArrayList<>();
+        for (int i = 0; i < listUserHistories.size(); i++) {
+            ExerciseChart exerciseChart = ExerciseChart.builder()
+                    .day(listUserHistories.get(i).getUserHistoryId().getDay())
+                    .currentBurned(listUserHistories.get(i).getCurrentBurned())
+                    .build();
+            listExerciseCharts.add(exerciseChart);
+        }
+        // create caloriesChart
+        List<CaloriesChart> listCaloriesCharts = new ArrayList<>();
+        for (int i = 0; i < listUserHistories.size(); i++) {
+            CaloriesChart caloriesChart = CaloriesChart.builder()
+                    .day(listUserHistories.get(i).getUserHistoryId().getDay())
+                    .totalCalories(listUserHistories.get(i).getTotalCalories())
+                    .currentCalories(listUserHistories.get(i).getCurrentCalories())
+                    .build();
+            listCaloriesCharts.add(caloriesChart);
+        }
+        // create fat carb protein chart
+        List<FatCarbProteinChart> listFatCarbProteinCharts = new ArrayList<>();
+        for (int i = 0; i < listUserHistories.size(); i++) {
+            FatCarbProteinChart fatCarbProteinChart = FatCarbProteinChart.builder()
+                    .day(listUserHistories.get(i).getUserHistoryId().getDay())
+                    // total
+                    .totalFat(listUserHistories.get(i).getTotalFat())
+                    .totalCarb(listUserHistories.get(i).getTotalCarb())
+                    .totalProtein(listUserHistories.get(i).getTotalProtein())
+                    // current
+                    .currentFat(listUserHistories.get(i).getCurrentFat())
+                    .currentCarb(listUserHistories.get(i).getCurrentCarb())
+                    .currentProtein(listUserHistories.get(i).getCurrentProtein())
+                    .build();
+            listFatCarbProteinCharts.add(fatCarbProteinChart);
+        }
+        return ResponseYearReport.builder()
+                // chart
+                .exerciseChart(listExerciseCharts)
+                .caloriesChart(listCaloriesCharts)
+                .fatCarbProteinChart(listFatCarbProteinCharts)
+                // list exercise
+                .listExercises(createLExerciseInReports(month, year, userId, weight))
+                // list saved food in calories
+                .listSavedFoodsCalories(createListFoodInCalories(month, year, userId))
+                // list saved food fat
+                .listSavedFoodFat(createListFoodInFatCarbProtein(month, year, userId, 1))
+                // list saved food carb
+                .listSavedFoodCarb(createListFoodInFatCarbProtein(month, year, userId, 2))
+                // list saved food protein
+                .listSavedFoodProtein(createListFoodInFatCarbProtein(month, year, userId, 3))
+                .build();
+    }
+
+    public List<List<ExerciseInReport>> createLExerciseInReports(int month, int year, String userId, float weight) {
+        List<List<ExerciseInReport>> list = new ArrayList<>();
+        List<UserHistory> listUserHistories = this.userHistoryRepository.getListUserHistoriesBasedOnBurned(month, year,
+                userId);
+        for (int i = 0; i < listUserHistories.size(); i++) {
+            List<ExerciseInReport> listExerciseInReports = createListExercise(listUserHistories.get(i), weight);
+            list.add(listExerciseInReports);
+        }
+
+        return list;
+    }
+
+    public List<List<SavedFood>> createListFoodInCalories(int month, int year, String userId) {
+        List<List<SavedFood>> list = new ArrayList<>();
+        List<UserHistory> listUserHistories = this.userHistoryRepository.getListUserHistoriesBasedOnCalories(month,
+                year,
+                userId);
+        for (int i = 0; i < listUserHistories.size(); i++) {
+            List<SavedFood> listSavedFood = this.createListSavedFoods(listUserHistories.get(i));
+            list.add(listSavedFood);
+        }
+
+        return list;
+    }
+
+    public List<List<SavedFood>> createListFoodInFatCarbProtein(int month, int year, String userId, int flag) {
+        List<List<SavedFood>> list = new ArrayList<>();
+        List<UserHistory> listUserHistories = new ArrayList<>();
+        if (flag == 1) { // fat
+            listUserHistories = this.userHistoryRepository.getListUserHistoriesBasedOnFat(month, year, userId);
+        } else if (flag == 2) { // carb
+            listUserHistories = this.userHistoryRepository.getListUserHistoriesBasedOnCarb(month, year, userId);
+        } else { // protein
+            listUserHistories = this.userHistoryRepository.getListUserHistoriesBasedOnProtein(month, year, userId);
+        }
+
+        for (int i = 0; i < listUserHistories.size(); i++) {
+            List<SavedFood> listSavedFood = this.createListSavedFoods(listUserHistories.get(i));
+            list.add(listSavedFood);
+        }
+
+        return list;
+    }
+
 }

@@ -82,4 +82,22 @@ public class UserHistoryController {
             @RequestParam(name = "month") int month, @RequestParam(name = "year") int year) {
         return this.userHistoryService.getNutritionProfile(httpServletRequest, day, month, year);
     }
+
+    @GetMapping("/getDataForDateReport")
+    public ResponseEntity getDataForReportDay(HttpServletRequest httpServletRequest,
+            @RequestParam(name = "day") int day,
+            @RequestParam(name = "month") int month, @RequestParam(name = "year") int year) {
+        return this.userHistoryService.getDataForDateReport(httpServletRequest, day, month, year);
+    }
+
+    @GetMapping("/getDataForWeekReport")
+    public ResponseEntity getDataForWeekReport(HttpServletRequest httpServletRequest) {
+        return this.userHistoryService.getDataForWeekReport(httpServletRequest);
+    }
+
+    @GetMapping("/getDataForMonthReport")
+    public ResponseEntity getDataForMonthReport(HttpServletRequest httpServletRequest,
+            @RequestParam(name = "month") int month, @RequestParam(name = "year") int year) {
+        return this.userHistoryService.getDataForMonthReport(httpServletRequest, month, year);
+    }
 }
