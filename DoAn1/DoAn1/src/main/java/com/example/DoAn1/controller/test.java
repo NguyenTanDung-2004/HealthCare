@@ -1,5 +1,7 @@
 package com.example.DoAn1.controller;
 
+import java.io.File;
+import java.text.Normalizer;
 import java.util.List;
 
 import org.apache.catalina.connector.Response;
@@ -20,6 +22,7 @@ import com.example.DoAn1.service.UserService;
 import com.example.DoAn1.utils.UtilsHandleEmail;
 import com.example.DoAn1.utils.UtilsHandleJwtToken;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/test")
@@ -75,7 +78,47 @@ public class test {
     }
 
     public static void main(String args[]) {
+        String[] s = { "Bài khởi động số 1",
+                "Bài khởi động số 10",
+                "Bài khởi động số 2",
+                "Bài khởi động số 3",
+                "Bài khởi động số 4",
+                "Bài khởi động số 5",
+                "Bài khởi động số 6",
+                "Bài khởi động số 7",
+                "Bài khởi động số 8",
+                "Bài khởi động số 9" };
+        String type = "start";
+        File folder = new File(
+                "C:\\Users\\user\\Downloads\\TaiLieuHocTap\\Mon_hoc_UIT\\hocki5\\DoAn1\\Project\\Project1_NutritionAndExerciseRecommendationSystem\\DoAn1\\DoAn1\\src\\main\\resources\\static\\ExcerciseImages\\"
+                        + type);
+        File[] listFolder = folder.listFiles();
+        for (int i = 0; i < listFolder.length; i++) {
+            File file = new File(listFolder[i].getAbsolutePath());
+            File file1 = new File(folder.getAbsolutePath() + File.separator + test.convertToNoAccent(s[i]));
+            file.renameTo(file1);
+        }
+    }
 
+    public static String convertToNoAccent(String str) {
+        // Bỏ dấu
+        String normalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        String noAccentString = pattern.matcher(normalizedString).replaceAll("");
+
+        // Chia chuỗi thành các từ
+        String[] words = noAccentString.split(" ");
+
+        // Viết hoa chữ cái đầu mỗi từ và nối lại
+        StringBuilder result = new StringBuilder();
+        for (String word : words) {
+            if (word.length() > 0) {
+                result.append(Character.toUpperCase(word.charAt(0))); // Chữ cái đầu tiên in hoa
+                result.append(word.substring(1).toLowerCase()); // Phần còn lại in thường
+            }
+        }
+
+        return result.toString();
     }
 
 }
