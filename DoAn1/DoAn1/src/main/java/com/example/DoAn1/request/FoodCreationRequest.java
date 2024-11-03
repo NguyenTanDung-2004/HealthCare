@@ -2,6 +2,8 @@ package com.example.DoAn1.request;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +32,6 @@ public class FoodCreationRequest {
     private List<Double> listWeightIngredient;
     private List<Double> listCaloriesIngredient;
     private List<String> listStep;
-    private List<String> listLinkImage;
     private String linkVideo;
     private double carb;
     private double protein;
@@ -38,4 +39,6 @@ public class FoodCreationRequest {
     private int flagBloodPressure; // 1 hạn chế, 0
     private int flagBloodGlucose; // 1 hạn chế, 0
     private int flagHeart; // 1 hạn chế, 0
+    private int numberOfLikes;
+    private String description;
 }

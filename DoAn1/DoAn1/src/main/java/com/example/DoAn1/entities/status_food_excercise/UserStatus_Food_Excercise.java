@@ -22,7 +22,8 @@ import lombok.NoArgsConstructor;
 public class UserStatus_Food_Excercise {
     @EmbeddedId
     private StatusFoodExcerciseId statusFoodExcerciseId;
-    @Column(columnDefinition = "blob") // Specify nvarchar column type
+    @Column(columnDefinition = "blob") // Specify nvarchar column type // we need to check null for foodId before we
+                                       // handle it
     private Set<String> foodId;
     @Column(columnDefinition = "blob") // Specify nvarchar column type
     private Set<String> excerciseId;

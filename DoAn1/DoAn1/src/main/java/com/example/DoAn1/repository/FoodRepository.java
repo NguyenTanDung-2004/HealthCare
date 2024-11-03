@@ -1,10 +1,14 @@
 package com.example.DoAn1.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.DoAn1.entities.Excercise;
 import com.example.DoAn1.entities.Food;
+
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 
 public interface FoodRepository extends JpaRepository<Food, String> {
@@ -28,4 +32,17 @@ public interface FoodRepository extends JpaRepository<Food, String> {
 
     @Query(value = "select * from food limit :limit offset :skip", nativeQuery = true)
     public List<Food> getFoodsBasedOnPage(int limit, int skip);
+
+    @Query(value = "select count(*) from food where name = :foodName", nativeQuery = true)
+    public int checkFoodByName(String foodName);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from user_like_food where food_id = :foodId", nativeQuery = true)
+    public void deleteUserLikeFood(String foodId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from user_vote_food where food_id = :foodId", nativeQuery = true)
+    public void deleteUserVoteFood(String foodId);
 }

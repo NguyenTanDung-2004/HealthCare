@@ -6,6 +6,7 @@ import java.util.List;
 import com.example.DoAn1.entities.user_vote_food.UserVoteFood;
 
 import jakarta.annotation.Generated;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -71,10 +72,10 @@ public class Food {
     @Column(columnDefinition = "longtext")
     private String descriptionFood;
 
-    @ManyToMany(mappedBy = "likedFoods")
+    @ManyToMany(mappedBy = "likedFoods", cascade = CascadeType.ALL)
     private java.util.Set<User> users = new HashSet<>();
 
     // user vote food
-    @OneToMany(mappedBy = "food")
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
     private Set<UserVoteFood> userFoods = new HashSet<>();
 }

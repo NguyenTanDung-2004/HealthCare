@@ -20,7 +20,6 @@ public class FoodMapper {
                 .listWeightIngredient(foodCreationRequest.getListWeightIngredient())
                 .listCaloriesIngredient(foodCreationRequest.getListCaloriesIngredient())
                 .listStep(foodCreationRequest.getListStep())
-                .listLinkImage(foodCreationRequest.getListLinkImage())
                 .linkVideo(foodCreationRequest.getLinkVideo())
                 .carb(foodCreationRequest.getCarb())
                 .protein(foodCreationRequest.getProtein())
@@ -28,6 +27,8 @@ public class FoodMapper {
                 .flagBloodGlucose(foodCreationRequest.getFlagBloodGlucose())
                 .flagBloodPressure(foodCreationRequest.getFlagBloodPressure())
                 .flagHeart(foodCreationRequest.getFlagHeart())
+                .numberOfLikes(0)
+                .descriptionFood(foodCreationRequest.getDescription())
                 .build();
     }
 }

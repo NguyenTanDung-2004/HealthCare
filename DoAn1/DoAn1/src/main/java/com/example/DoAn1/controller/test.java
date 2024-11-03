@@ -74,4 +74,8 @@ public class test {
         return ResponseEntity.ok().body("asdfasdf");
     }
 
+    public static void main(String args[]) {
+
+    }
+
 }

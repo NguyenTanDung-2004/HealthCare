@@ -5,8 +5,10 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.hibernate.engine.internal.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +42,7 @@ import com.example.DoAn1.response.ResponseFoods;
 import com.example.DoAn1.utils.UtilsHandleJson;
 
 import java.util.ArrayList;
+import java.io.File;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
@@ -437,6 +440,10 @@ public class SupportFoodService {
                 .protein(userCreateFoodRequest.getProtein())
                 .build();
         return UtilsHandleJson.convertSavedFoodToString(savedFood);
+    }
+
+    public boolean checkRemoveImage(String fileName) {
+        return fileName.contains("remove");
     }
 
 }

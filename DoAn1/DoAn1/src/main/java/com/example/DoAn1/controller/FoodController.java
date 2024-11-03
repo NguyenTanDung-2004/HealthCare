@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.DoAn1.Model.Vote;
 import com.example.DoAn1.entities.Food;
@@ -33,6 +34,13 @@ public class FoodController {
     @PostMapping("/createFood")
     public ResponseEntity createFood(@RequestBody FoodCreationRequest foodCreationRequest) {
         return this.foodService.createFood(foodCreationRequest);
+    }
+
+    @PostMapping("/createImageForFood")
+    public ResponseEntity createImageForFood(@RequestParam(name = "listNormalImages") MultipartFile[] listNormalImages, // image
+            @RequestParam(name = "removedImage") MultipartFile removedImage,
+            @RequestParam(name = "foodId") String foodId) {
+        return this.foodService.createImageForFood(listNormalImages, removedImage, foodId);
     }
 
     // test
@@ -106,6 +114,27 @@ public class FoodController {
     @GetMapping("/getListUserFood")
     public ResponseEntity getListUserFood(HttpServletRequest httpServletRequest) {
         return this.foodService.getListUserFood(httpServletRequest);
+    }
+
+    @PostMapping("/updateFood")
+    public ResponseEntity updateFood(@RequestParam(name = "foodId") String foodId,
+            @RequestBody FoodCreationRequest foodCreationRequest) {
+        return this.foodService.updateFood(foodId, foodCreationRequest);
+    }
+
+    @PostMapping("/updateFoodImage")
+    public ResponseEntity updateFoodImage(
+            @RequestParam(name = "listNormalImages", required = false) MultipartFile[] listNormalImages, // image
+            @RequestParam(name = "removedImage", required = false) MultipartFile removedImage,
+            @RequestParam(name = "foodId") String foodId, @RequestParam(name = "flagList") int flagList,
+            @RequestParam(name = "flagRemove") int flagRemove) {
+        // 1 - update, 0 - none
+        return this.foodService.updateFoodImage(listNormalImages, removedImage, foodId, flagList, flagRemove);
+    }
+
+    @PostMapping("/deleteFood")
+    public ResponseEntity deleteFood(@RequestParam(name = "foodId") String foodId) {
+        return this.foodService.deleteFoodId(foodId);
     }
 
 }
