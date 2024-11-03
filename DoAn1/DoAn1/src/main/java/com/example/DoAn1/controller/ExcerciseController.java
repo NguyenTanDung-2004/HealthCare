@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 import com.example.DoAn1.Model.Vote;
@@ -61,5 +63,39 @@ public class ExcerciseController {
     public ResponseEntity getExerciseDetail(@RequestParam(name = "exerciseId") String exerciseId,
             HttpServletRequest httpServletRequest) {
         return this.exerciseService.getExerciseDetail(exerciseId, httpServletRequest);
+    }
+
+    // manage exercise
+    @PostMapping("/createExercise")
+    public ResponseEntity createExercise(@RequestBody ExcerciseCreationRequest excerciseCreationRequest) {
+        return this.exerciseService.createExercise(excerciseCreationRequest);
+    }
+
+    @PostMapping("/createExerciseImages")
+    public ResponseEntity createExerciseImages(@RequestParam(name = "listImages") MultipartFile[] multipartFiles,
+            @RequestParam(name = "remove") MultipartFile multipartFile, @RequestParam(name = "id") String id) {
+        return this.exerciseService.createExerciseImages(multipartFiles, multipartFile, id);
+    }
+
+    @PostMapping("/updateExercise")
+    public ResponseEntity updateExercise(@RequestBody ExcerciseCreationRequest excerciseCreationRequest,
+            @RequestParam(name = "exerciseId") String exerciseId) {
+        return this.exerciseService.updateExercise(excerciseCreationRequest, exerciseId);
+    }
+
+    @PostMapping("/updateExerciseImages")
+    public ResponseEntity updateExerciseImage(
+            @RequestParam(name = "listNormalImages", required = false) MultipartFile[] listNormalImages, // image
+            @RequestParam(name = "removedImage", required = false) MultipartFile removedImage,
+            @RequestParam(name = "exerciseId") String exerciseId, @RequestParam(name = "flagList") int flagList,
+            @RequestParam(name = "flagRemove") int flagRemove) {
+        // 1 - update, 0 - none
+        return this.exerciseService.updateExerciseImage(listNormalImages, removedImage, exerciseId, flagList,
+                flagRemove);
+    }
+
+    @PostMapping("/deleteExercise")
+    public ResponseEntity deleteExercise(@RequestParam(name = "exerciseId") String exerciseId) {
+        return this.exerciseService.deleteExercise(exerciseId);
     }
 }

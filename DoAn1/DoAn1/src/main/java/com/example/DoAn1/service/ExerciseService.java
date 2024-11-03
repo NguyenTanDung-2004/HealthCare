@@ -1,16 +1,22 @@
 package com.example.DoAn1.service;
 
 import org.apache.el.stream.Optional;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.DoAn1.Model.Vote;
 import com.example.DoAn1.entities.Excercise;
+import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.entities.User;
 import com.example.DoAn1.entities.status_food_excercise.StatusFoodExcerciseId;
 import com.example.DoAn1.entities.status_food_excercise.UserStatus_Food_Excercise;
+import com.example.DoAn1.exception.ExceptionCode;
+import com.example.DoAn1.exception.ExceptionUser;
 import com.example.DoAn1.mapper.ExcerciseMapper;
+import com.example.DoAn1.mapper.FoodMapper;
 import com.example.DoAn1.repository.ExerciseRepository;
 import com.example.DoAn1.repository.StatusFoodExcerciseRepository;
 import com.example.DoAn1.repository.UserRepository;
@@ -28,6 +34,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Map;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -156,4 +163,120 @@ public class ExerciseService {
         return ResponseEntity.ok().body(listResponseExercises);
     }
 
+    public ResponseEntity createExercise(ExcerciseCreationRequest excerciseCreationRequest) {
+        // check name
+        if (this.exerciseRepository.checkExerciseName(excerciseCreationRequest.getName()) > 0) {
+            throw new ExceptionUser(ExceptionCode.ExerciseNameIsExist);
+        }
+        // convert request to exercise
+        Excercise excercise = this.exerciseMapper.convertRequest(excerciseCreationRequest);
+        // save
+        excercise = this.exerciseRepository.save(excercise);
+        // return
+        return ResponseEntity.ok().body(excercise.getId());
+    }
+
+    public ResponseEntity createExerciseImages(MultipartFile[] multipartFiles, MultipartFile multipartFile, String id) {
+        // get exercise
+        Excercise excercise = this.exerciseRepository.findById(id).get();
+        // create folder
+        this.utilsHandleFile.createFolder(
+                this.utilsHandleFile.getPathOfStatic() + "/ExcerciseImages/",
+                this.supportFoodService.convertToNoAccent(excercise.getName()));
+        // saved list file
+        for (int i = 0; i < multipartFiles.length; i++) {
+            this.utilsHandleFile.saveFile(multipartFiles[i],
+                    this.utilsHandleFile.getPathOfStatic() + "/ExcerciseImages/"
+                            + this.supportFoodService.convertToNoAccent(excercise.getName()),
+                    (i + 1) + ".png", 2);
+        }
+        // saved remove
+        this.utilsHandleFile.saveFile(multipartFile,
+                this.utilsHandleFile.getPathOfStatic() + "/ExcerciseImages/"
+                        + this.supportFoodService.convertToNoAccent(excercise.getName()),
+                "Remove.png", 1);
+
+        // return
+        return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.CreateExercise));
+    }
+
+    public ResponseEntity updateExercise(ExcerciseCreationRequest excerciseCreationRequest, String exerciseId) {
+        // get exercise
+        Excercise excercise = this.exerciseRepository.findById(exerciseId).get();
+        // get name
+        String name = excercise.getName();
+        // check exercise name
+        if (excercise.getName().equals(excerciseCreationRequest.getName()) == false
+                && this.exerciseRepository.checkExerciseName(excerciseCreationRequest.getName()) > 0) {
+            throw new ExceptionUser(ExceptionCode.ExerciseNameIsExist);
+        }
+        // create new exercise through mapper
+        Excercise excercise1 = exerciseMapper.convertRequest(excerciseCreationRequest);
+        // set data for exercise
+        excercise.setName(excercise1.getName());
+        excercise.setTime(excercise1.getTime());
+        excercise.setMet(excercise1.getMet());
+        excercise.setListHanChe(excercise1.getListHanChe());
+        excercise.setLinkVideo(excercise1.getLinkVideo());
+        excercise.setType(excercise1.getType());
+        // update
+        this.exerciseRepository.save(excercise);
+        // rename folder
+        this.utilsHandleFile.renameFolder(this.utilsHandleFile.getPathOfStatic() + "/ExcerciseImages",
+                this.supportFoodService.convertToNoAccent(name),
+                this.supportFoodService.convertToNoAccent(excerciseCreationRequest.getName()));
+        // return
+        return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UpdateExercise));
+    }
+
+    public ResponseEntity updateExerciseImage(MultipartFile[] listNormalImages, MultipartFile removedImage,
+            String exerciseId, int flagList, int flagRemove) {
+        // get exercise
+        Excercise excercise = this.exerciseRepository.findById(exerciseId).get();
+        // update list image
+        if (flagList == 1) {
+            List<String> listFileName = this.supportExerciseService
+                    .getAllFileInFolder(this.supportFoodService.convertToNoAccent(excercise.getName()));
+            // delete file
+            for (int i = 0; i < listFileName.size(); i++) {
+                if (this.supportFoodService.checkRemoveImage(listFileName.get(i)) == false) {
+                    this.utilsHandleFile.delete1File(this.utilsHandleFile.getPathOfStatic() + "/ExcerciseImages/"
+                            + this.supportFoodService.convertToNoAccent(excercise.getName()) + "/"
+                            + listFileName.get(i));
+                }
+            }
+            // save file
+            for (int i = 0; i < listNormalImages.length; i++) {
+                this.utilsHandleFile.saveFile(listNormalImages[i],
+                        this.utilsHandleFile.getPathOfStatic() + "/ExcerciseImages/"
+                                + this.supportFoodService.convertToNoAccent(excercise.getName()),
+                        (i + 1) + ".png", 2);
+            }
+        }
+        // update remove
+        this.utilsHandleFile.saveFile(removedImage, this.utilsHandleFile.getPathOfStatic() + "/ExcerciseImages/"
+                + this.supportFoodService.convertToNoAccent(excercise.getName()), "remove.png", 1);
+
+        // return
+        return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UpdateExercise));
+    }
+
+    public ResponseEntity deleteExercise(String exerciseId) {
+        // get exercise
+        Excercise excercise = this.exerciseRepository.findById(exerciseId).get();
+        // delete folder
+        try {
+            FileUtils.deleteDirectory(new File(this.utilsHandleFile.getPathOfStatic() + "/ExcerciseImages/"
+                    + this.supportFoodService.convertToNoAccent(excercise.getName())));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        // // delete food
+        exerciseRepository.deleteUserLikeExercise(exerciseId);
+        exerciseRepository.deleteUserVoteExercise(exerciseId);
+        exerciseRepository.deleteById(exerciseId);
+        // return
+        return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.DeleteFood));
+    }
 }

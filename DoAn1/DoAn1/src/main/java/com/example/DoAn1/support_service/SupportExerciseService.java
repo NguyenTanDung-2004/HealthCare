@@ -3,6 +3,8 @@ package com.example.DoAn1.support_service;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
 import com.example.DoAn1.Model.Vote;
@@ -23,6 +25,7 @@ import com.example.DoAn1.response.ResponseExercises;
 import com.example.DoAn1.utils.UtilsHandleFile;
 import java.util.Map;
 import java.io.File;
+import java.io.IOException;
 
 @Component
 public class SupportExerciseService {
@@ -179,6 +182,28 @@ public class SupportExerciseService {
         s = s.substring(0, s.length() - 5);
         s = "http://localhost:8080/" + s + "Remove.png";
         list.add(s);
+        return list;
+    }
+
+    public List<String> getAllFileInFolder(String foodName) {
+        // Using PathMatchingResourcePatternResolver to match all files in the folder
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+
+        // This is the path for files inside the static folder
+        Resource[] resources = null;
+        try {
+            resources = resolver.getResources("classpath:static/ExcerciseImages/" + foodName + "/*");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        List<String> list = new ArrayList<>();
+        // Iterate over the resources and print file names
+        for (Resource resource : resources) {
+            list.add(resource.getFilename());
+        }
+
         return list;
     }
 }

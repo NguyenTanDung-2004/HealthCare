@@ -443,7 +443,7 @@ public class SupportFoodService {
     }
 
     public boolean checkRemoveImage(String fileName) {
-        return fileName.contains("remove");
+        return fileName.toLowerCase().contains("remove");
     }
 
 }

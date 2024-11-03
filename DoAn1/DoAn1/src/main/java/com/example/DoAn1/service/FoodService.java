@@ -4,8 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.ResponseEntity;
@@ -237,7 +240,7 @@ public class FoodService {
                 + this.supportFoodService.convertToNoAccent(food.getName()), "remove.png", 1);
 
         // return
-        return ResponseEntity.ok().body(ResponseCode.UpdateFood);
+        return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UpdateFood));
     }
 
     public ResponseEntity updateFood(String foodId, FoodCreationRequest foodCreationRequest) {
@@ -251,9 +254,10 @@ public class FoodService {
         }
         // create new food through mapper
         Food food1 = FoodMapper.convertRequest(foodCreationRequest);
-        food1.setId(foodId);
+        // set data for food
+        food.setValue(food1);
         // update
-        this.foodRepository.save(food1);
+        this.foodRepository.save(food);
         // rename folder
         this.utilsHandleFile.renameFolder(this.utilsHandleFile.getPathOfStatic() + "/FoodImages",
                 this.supportFoodService.convertToNoAccent(name),
@@ -297,6 +301,13 @@ public class FoodService {
     public ResponseEntity deleteFoodId(String foodId) {
         // get food
         Food food = this.foodRepository.findById(foodId).get();
+        try {
+            FileUtils.deleteDirectory(new File(this.utilsHandleFile.getPathOfStatic() + "/FoodImages/"
+                    + this.supportFoodService.convertToNoAccent(food.getName())));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         // // delete food
         foodRepository.deleteUserLikeFood(foodId);
         foodRepository.deleteUserVoteFood(foodId);

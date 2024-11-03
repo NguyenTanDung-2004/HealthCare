@@ -37,7 +37,9 @@ public enum ResponseCode {
     UserDeleteFoodInMeal(1000, "user delete food in meal successfully!"),
     DeleteUserFood(1000, "user deletes user food successfully!"),
     CreateUserTarget(1000, "Create User target successfully!"),
-    DeleteFood(1000, "delete food successfully!");
+    DeleteFood(1000, "delete food successfully!"),
+    CreateExercise(1000, "create exercise successfully!"),
+    UpdateExercise(1000, "update exercise successfully!");
 
     private int code;
     private String message;

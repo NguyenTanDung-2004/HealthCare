@@ -78,25 +78,32 @@ public class test {
     }
 
     public static void main(String args[]) {
-        String[] s = { "Bài khởi động số 1",
-                "Bài khởi động số 10",
-                "Bài khởi động số 2",
-                "Bài khởi động số 3",
-                "Bài khởi động số 4",
-                "Bài khởi động số 5",
-                "Bài khởi động số 6",
-                "Bài khởi động số 7",
-                "Bài khởi động số 8",
-                "Bài khởi động số 9" };
+        String[] s = { "Bài tập vai số 1",
+                "Bài tập vai số 10",
+                "Bài tập vai số 2",
+                "Bài tập vai số 3",
+                "Bài tập vai số 4",
+                "Bài tập vai số 5",
+                "Bài tập vai số 6",
+                "Bài tập vai số 7",
+                "Bài tập vai số 8",
+                "Bài tập vai số 9" };
         String type = "start";
         File folder = new File(
                 "C:\\Users\\user\\Downloads\\TaiLieuHocTap\\Mon_hoc_UIT\\hocki5\\DoAn1\\Project\\Project1_NutritionAndExerciseRecommendationSystem\\DoAn1\\DoAn1\\src\\main\\resources\\static\\ExcerciseImages\\"
                         + type);
+        String path = "C:\\Users\\user\\Downloads\\TaiLieuHocTap\\Mon_hoc_UIT\\hocki5\\DoAn1\\Project\\Project1_NutritionAndExerciseRecommendationSystem\\DoAn1\\DoAn1\\src\\main\\resources\\static\\ExcerciseImages\\"
+                + type;
         File[] listFolder = folder.listFiles();
         for (int i = 0; i < listFolder.length; i++) {
+            System.out.println(listFolder[i].getName());
             File file = new File(listFolder[i].getAbsolutePath());
-            File file1 = new File(folder.getAbsolutePath() + File.separator + test.convertToNoAccent(s[i]));
+            File file1 = new File((path + File.separator + listFolder[i].getName() +
+                    type).replace(type, ""));
             file.renameTo(file1);
+            // File file = new File(listFolder[i].getAbsolutePath());
+            // File file1 = new File(path + File.separator + test.convertToNoAccent(s[i]));
+            // file.renameTo(file1);
         }
     }
 

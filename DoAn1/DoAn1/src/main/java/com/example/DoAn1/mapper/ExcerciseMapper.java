@@ -15,6 +15,7 @@ public class ExcerciseMapper {
                 .listHanChe(excerciseCreationRequest.getListHanChe())
                 .linkVideo(excerciseCreationRequest.getLinkVideo())
                 .type(excerciseCreationRequest.getType())
+                .numberOfLikes(0)
                 .build();
     }
 }

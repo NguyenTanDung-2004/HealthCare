@@ -1,5 +1,6 @@
 package com.example.DoAn1.entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -78,4 +79,27 @@ public class Food {
     // user vote food
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
     private Set<UserVoteFood> userFoods = new HashSet<>();
+
+    public void setValue(Food other) {
+        this.name = other.name;
+        this.level = other.level;
+        this.method = other.method;
+        this.diet = other.diet;
+        this.calories = other.calories;
+        this.time = other.time;
+        this.type = other.type;
+        this.listIngredient = new ArrayList<>(other.listIngredient);
+        this.listWeightIngredient = new ArrayList<>(other.listWeightIngredient);
+        this.listCaloriesIngredient = new ArrayList<>(other.listCaloriesIngredient);
+        this.listStep = new ArrayList<>(other.listStep);
+        this.listLinkImage = new ArrayList<>(other.listLinkImage);
+        this.linkVideo = other.linkVideo;
+        this.carb = other.carb;
+        this.protein = other.protein;
+        this.fat = other.fat;
+        this.flagBloodPressure = other.flagBloodPressure;
+        this.flagBloodGlucose = other.flagBloodGlucose;
+        this.flagHeart = other.flagHeart;
+        this.descriptionFood = other.descriptionFood;
+    }
 }
