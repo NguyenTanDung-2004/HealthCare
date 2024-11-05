@@ -49,4 +49,18 @@ public class Excercise {
     // user vote excercise
     @OneToMany(mappedBy = "excercise")
     private Set<UserVoteExcercise> userExcercises = new HashSet<>();
+
+    // Constructor
+    public Excercise(String id, String name, Integer time, Float met, List<String> listHanChe, List<String> listImages,
+            String linkVideo, String type, Integer numberOfLikes) {
+        this.id = id;
+        this.name = name;
+        this.time = time;
+        this.met = met;
+        this.listHanChe = listHanChe;
+        this.listImages = listImages;
+        this.linkVideo = linkVideo;
+        this.type = type;
+        this.numberOfLikes = numberOfLikes;
+    }
 }

@@ -14,4 +14,7 @@ public interface UserChallengeRepository extends JpaRepository<UserChallenge, Us
     @Modifying
     @Query(value = "delete from user_challenge where exercise_id = :exerciseId", nativeQuery = true)
     public void deleteChallenge(String exerciseId);
+
+    @Query(value = "select count(*) from user_challenge where exercise_id = :exerciseId", nativeQuery = true)
+    public int countNumberOfUsers(String exerciseId);
 }

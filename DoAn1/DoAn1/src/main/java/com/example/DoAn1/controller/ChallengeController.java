@@ -42,4 +42,10 @@ public class ChallengeController {
     public ResponseEntity getListExerciseChallenge(HttpServletRequest httpServletRequest) {
         return this.challengeService.getListExerciseChallenge(httpServletRequest);
     }
+
+    @PostMapping("/doExerciseChallenge")
+    public ResponseEntity doExerciseChallenge(HttpServletRequest httpServletRequest,
+            @RequestParam(name = "exerciseId") String exerciseId) {
+        return this.challengeService.doExerciseChallenge(httpServletRequest, exerciseId);
+    }
 }

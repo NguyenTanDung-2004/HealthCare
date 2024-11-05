@@ -44,6 +44,9 @@ public class SupportExerciseService {
     @Autowired
     private UserVoteExerciseRepository userVoteExerciseRepository;
 
+    @Autowired
+    private SupportFoodService supportFoodService;
+
     public void save1Exercise(ExerciseRepository exerciseRepository,
             ExcerciseCreationRequest excerciseCreationRequest, ExcerciseMapper excerciseMapper, int index,
             Map<Integer, File> map) {
@@ -122,7 +125,8 @@ public class SupportExerciseService {
     }
 
     public String createLinkImageInAllExercise(Excercise excercise) {
-        return "http://localhost:8080/" + excercise.getListImages().get(1).replace("\\", "/");
+        return "http://localhost:8080/ExcerciseImages/" + this.supportFoodService.convertToNoAccent(excercise.getName())
+                + "/Remove.png";
     }
 
     public int createCaloriesBasedOnMet(Excercise excercise, User user) {

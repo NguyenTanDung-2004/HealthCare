@@ -18,4 +18,5 @@ public class Challenge {
     @Id
     private String exerciseId;
     private int point;
+    private int numberOfUsers;
 }
