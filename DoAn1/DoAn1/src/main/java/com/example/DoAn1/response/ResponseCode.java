@@ -39,7 +39,10 @@ public enum ResponseCode {
     CreateUserTarget(1000, "Create User target successfully!"),
     DeleteFood(1000, "delete food successfully!"),
     CreateExercise(1000, "create exercise successfully!"),
-    UpdateExercise(1000, "update exercise successfully!");
+    UpdateExercise(1000, "update exercise successfully!"),
+    CreateChallenges(1000, "create challenge successfully!"),
+    EditChallenge(1000, "Edit challenge successfully!"),
+    DeleteChallenge(1000, "Delete challenge successfully!");
 
     private int code;
     private String message;
