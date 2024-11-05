@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.repository.FoodRepository;
@@ -74,5 +75,11 @@ public class UserController {
     public ResponseEntity updateUserDiet(HttpServletRequest httpServletRequest,
             @RequestParam(name = "flagDiet") int flagDiet) {
         return this.userService.updateUserDiet(httpServletRequest, flagDiet);
+    }
+
+    @PostMapping("/uploadUserImage")
+    public ResponseEntity uploadUserImage(HttpServletRequest httpServletRequest,
+            @RequestParam(name = "file") MultipartFile multipartFile) {
+        return this.userService.uploadUserImage(httpServletRequest, multipartFile);
     }
 }

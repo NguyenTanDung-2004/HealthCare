@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.DoAn1.entities.User;
 import com.example.DoAn1.exception.ExceptionCode;
@@ -22,6 +23,7 @@ import com.example.DoAn1.response.ResponseCode;
 import com.example.DoAn1.response.response_user_info.ResponseUserInfo;
 import com.example.DoAn1.support_service.SupportUserService;
 import com.example.DoAn1.utils.UtilsHandleEmail;
+import com.example.DoAn1.utils.UtilsHandleFile;
 import com.example.DoAn1.utils.UtilsHandleJwtToken;
 import com.example.DoAn1.utils.UtilsHandlePassword;
 import com.google.gson.Gson;
@@ -51,6 +53,9 @@ public class UserService {
 
     @Autowired
     private UserHistoryRepository userHistoryRepository;
+
+    @Autowired
+    private UtilsHandleFile utilsHandleFile;
 
     @Value("${role.userrole}")
     private String userRole;
@@ -167,5 +172,17 @@ public class UserService {
         // update
         this.supportUserService.updateUserDietInUserHistory(user, flagDiet);
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UpdateUserDiet));
+    }
+
+    public ResponseEntity uploadUserImage(HttpServletRequest httpServletRequest, MultipartFile multipartFile) {
+        // get user Id
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        // create path
+        String folderPath = this.utilsHandleFile.getPathOfStatic() + "/UserImages";
+        // save file
+        this.utilsHandleFile.saveFile(multipartFile, folderPath, userId + ".png", 0);
+        // return
+        return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UploadUserImage));
     }
 }
