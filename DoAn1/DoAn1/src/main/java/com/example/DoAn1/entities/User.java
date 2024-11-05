@@ -74,4 +74,7 @@ public class User {
     // user vote excercise
     @OneToMany(mappedBy = "user")
     private Set<UserVoteExcercise> userExcercises = new HashSet<>();
+
+    // challenge
+    private int point;
 }
