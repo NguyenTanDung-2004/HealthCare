@@ -48,4 +48,9 @@ public class ChallengeController {
             @RequestParam(name = "exerciseId") String exerciseId) {
         return this.challengeService.doExerciseChallenge(httpServletRequest, exerciseId);
     }
+
+    @GetMapping("/getDataInRankTab")
+    public ResponseEntity getDataInRankTab(HttpServletRequest httpServletRequest) {
+        return this.challengeService.getDataInRankTab(httpServletRequest);
+    }
 }

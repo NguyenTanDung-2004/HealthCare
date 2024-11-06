@@ -15,6 +15,7 @@ import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.request.RequestCreateExerciseChallenge;
 import com.example.DoAn1.response.ResponseCode;
 import com.example.DoAn1.response.ResponseExerciseChallenge;
+import com.example.DoAn1.response.ResponseRankData;
 import com.example.DoAn1.support_service.SupportChallengeService;
 import com.example.DoAn1.support_service.SupportUserService;
 import com.example.DoAn1.utils.UtilsHandleJwtToken;
@@ -155,5 +156,16 @@ public class ChallengeService {
         }
         // return
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.RecordExercise));
+    }
+
+    public ResponseEntity getDataInRankTab(HttpServletRequest httpServletRequest) {
+        // get user
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        User user = this.userRepository.findById(userId).get();
+        // create response data in rank
+        ResponseRankData responseRankData = this.supportChallengeService.createResponseRankData(user);
+        // return
+        return ResponseEntity.ok().body(responseRankData);
     }
 }
