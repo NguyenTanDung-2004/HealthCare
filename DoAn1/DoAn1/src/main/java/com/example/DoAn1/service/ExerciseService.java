@@ -23,6 +23,7 @@ import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.request.ExcerciseCreationRequest;
 import com.example.DoAn1.response.ResponseCode;
 import com.example.DoAn1.response.ResponseExerciseDetail;
+import com.example.DoAn1.response.ResponseExerciseStatistic;
 import com.example.DoAn1.response.ResponseExercises;
 import com.example.DoAn1.support_service.SupportExerciseService;
 import com.example.DoAn1.support_service.SupportFoodService;
@@ -278,5 +279,15 @@ public class ExerciseService {
         exerciseRepository.deleteById(exerciseId);
         // return
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.DeleteFood));
+    }
+
+    public ResponseEntity getExerciseStatistic() {
+        // get list exercise
+        List<Excercise> list = this.exerciseRepository.getTop3Exercise();
+        // create response
+        List<ResponseExerciseStatistic> listResponseExerciseStatistics = this.supportExerciseService
+                .listResponseExerciseStatistics(list);
+        // return
+        return ResponseEntity.ok().body(listResponseExerciseStatistics);
     }
 }

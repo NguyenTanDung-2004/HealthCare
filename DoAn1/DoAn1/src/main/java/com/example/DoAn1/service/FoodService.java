@@ -34,6 +34,7 @@ import com.example.DoAn1.request.UserCreateFoodRequest;
 import com.example.DoAn1.response.ResponseCode;
 import com.example.DoAn1.response.ResponseFoodDetail;
 import com.example.DoAn1.response.ResponseFoodDetailInSystem;
+import com.example.DoAn1.response.ResponseFoodStatistic;
 import com.example.DoAn1.response.ResponseFoods;
 import com.example.DoAn1.response.ResponseUserFood;
 import com.example.DoAn1.support_service.SupportFoodService;
@@ -314,6 +315,16 @@ public class FoodService {
         foodRepository.deleteById(foodId);
         // return
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.DeleteFood));
+    }
+
+    public ResponseEntity getFoodStatistic() {
+        // get top 3 food
+        List<Food> listFoods = this.foodRepository.getTop3Food();
+        // create response
+        List<ResponseFoodStatistic> listResponseFoodStatistics = this.supportFoodService
+                .createListResponseFoodStatistics(listFoods);
+        // return
+        return ResponseEntity.ok().body(listResponseFoodStatistics);
     }
 
 }

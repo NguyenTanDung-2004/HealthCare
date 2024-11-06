@@ -1,6 +1,8 @@
 package com.example.DoAn1.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,12 @@ import com.example.DoAn1.mapper.UserMapper;
 import com.example.DoAn1.repository.UserHistoryRepository;
 import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.request.UserUpdatePasswordRequest;
+import com.example.DoAn1.request.RequestRateApp;
 import com.example.DoAn1.request.UserCompleteRequest;
 import com.example.DoAn1.request.UserCreationRequest;
 import com.example.DoAn1.request.UserInfoUpdateRequest;
 import com.example.DoAn1.response.ResponseCode;
+import com.example.DoAn1.response.ResponseUserStatistic;
 import com.example.DoAn1.response.response_user_info.ResponseUserInfo;
 import com.example.DoAn1.support_service.SupportUserService;
 import com.example.DoAn1.utils.UtilsHandleEmail;
@@ -184,5 +188,33 @@ public class UserService {
         this.utilsHandleFile.saveFile(multipartFile, folderPath, userId + ".png", 0);
         // return
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UploadUserImage));
+    }
+
+    public ResponseEntity getUserStatistic() {
+        // get list data
+        List<List<Integer>> list = this.userRepository.getUserStatistic();
+        list.get(0).addAll(this.userRepository.getRateData().get(0));
+        // create response
+        ResponseUserStatistic responseUserStatistic = this.supportUserService.listTResponseUserStatistic(list.get(0));
+        // return
+        return ResponseEntity.ok().body(responseUserStatistic);
+    }
+
+    public ResponseEntity rateTheApp(HttpServletRequest httpServletRequest, RequestRateApp requestRateApp) {
+        // get user
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        User user = this.userRepository.findById(userId).get();
+        // check list comments
+        if (user.getListComments() == null) {
+            user.setListComments(new ArrayList<>());
+        }
+        // update value
+        user.getListComments().add(requestRateApp.getComment());
+        user.setFlag(requestRateApp.getFlag());
+        // save
+        this.userRepository.save(user);
+        // return
+        return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.RateApp));
     }
 }

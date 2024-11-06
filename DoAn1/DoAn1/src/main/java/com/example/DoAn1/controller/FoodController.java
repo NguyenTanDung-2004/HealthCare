@@ -137,4 +137,9 @@ public class FoodController {
         return this.foodService.deleteFoodId(foodId);
     }
 
+    @GetMapping("/getFoodStatistic")
+    public ResponseEntity getFoodStatistic() {
+        return this.foodService.getFoodStatistic();
+    }
+
 }

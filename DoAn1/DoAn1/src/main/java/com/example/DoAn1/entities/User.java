@@ -51,7 +51,6 @@ public class User {
     // 1.375 - tập thể dục nhẹ 1 - 3 ngày một tuần
     // 1.55 - tập thể dục vừa phải 3 - 5 ngày 1 tuần
     // 1.725 - tập thể dục nặng 6 - 7 ngày 1 tuần.
-    //
     private float bloodPressure1;
     private float bloodSugar1;
     //
@@ -77,4 +76,9 @@ public class User {
 
     // challenge
     private int point;
+
+    // rate app
+    private Integer flag; // 1 - te, 2 - tot, 3 - hai long
+    @Column(columnDefinition = "blob") // Specify nvarchar column type
+    private java.util.List<String> listComments;
 }

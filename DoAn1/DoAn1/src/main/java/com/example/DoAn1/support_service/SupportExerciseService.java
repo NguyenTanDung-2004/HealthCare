@@ -21,6 +21,7 @@ import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.repository.UserVoteExerciseRepository;
 import com.example.DoAn1.request.ExcerciseCreationRequest;
 import com.example.DoAn1.response.ResponseExerciseDetail;
+import com.example.DoAn1.response.ResponseExerciseStatistic;
 import com.example.DoAn1.response.ResponseExercises;
 import com.example.DoAn1.utils.UtilsHandleFile;
 import java.util.Map;
@@ -209,5 +210,25 @@ public class SupportExerciseService {
         }
 
         return list;
+    }
+
+    public List<ResponseExerciseStatistic> listResponseExerciseStatistics(List<Excercise> list) {
+        List<ResponseExerciseStatistic> list1 = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            list1.add(exerciseToResponseExerciseStatistic(list.get(i)));
+        }
+        return list1;
+    }
+
+    public ResponseExerciseStatistic exerciseToResponseExerciseStatistic(Excercise excercise) {
+        return ResponseExerciseStatistic.builder()
+                .name(excercise.getName())
+                .time(excercise.getTime())
+                .met(excercise.getMet())
+                .numberOfLikes(excercise.getNumberOfLikes())
+                .vote(createStars(excercise.getId()))
+                .linkImage("http://localhost:8080/ExcerciseImages/"
+                        + this.supportFoodService.convertToNoAccent(excercise.getName()) + "/1.png")
+                .build();
     }
 }

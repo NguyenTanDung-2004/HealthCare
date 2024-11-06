@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.repository.FoodRepository;
+import com.example.DoAn1.request.RequestRateApp;
 import com.example.DoAn1.request.UserCompleteRequest;
 import com.example.DoAn1.request.UserCreationRequest;
 import com.example.DoAn1.request.UserInfoUpdateRequest;
@@ -81,5 +82,16 @@ public class UserController {
     public ResponseEntity uploadUserImage(HttpServletRequest httpServletRequest,
             @RequestParam(name = "file") MultipartFile multipartFile) {
         return this.userService.uploadUserImage(httpServletRequest, multipartFile);
+    }
+
+    @GetMapping("/getUserStatistic")
+    public ResponseEntity getUserStatistic() {
+        return this.userService.getUserStatistic();
+    }
+
+    @PostMapping("/rateTheApp")
+    public ResponseEntity rateTheApp(HttpServletRequest httpServletRequest,
+            @RequestBody RequestRateApp requestRateApp) {
+        return this.userService.rateTheApp(httpServletRequest, requestRateApp);
     }
 }

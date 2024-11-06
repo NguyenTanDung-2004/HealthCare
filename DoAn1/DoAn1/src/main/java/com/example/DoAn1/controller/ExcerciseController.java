@@ -98,4 +98,9 @@ public class ExcerciseController {
     public ResponseEntity deleteExercise(@RequestParam(name = "exerciseId") String exerciseId) {
         return this.exerciseService.deleteExercise(exerciseId);
     }
+
+    @GetMapping("/getExerciseStatistic")
+    public ResponseEntity getExerciseStatistic() {
+        return this.exerciseService.getExerciseStatistic();
+    }
 }

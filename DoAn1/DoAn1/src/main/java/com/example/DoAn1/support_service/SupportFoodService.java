@@ -38,6 +38,7 @@ import com.example.DoAn1.repository.UserVoteFoodRepository;
 import com.example.DoAn1.request.FoodEditRequest;
 import com.example.DoAn1.request.UserCreateFoodRequest;
 import com.example.DoAn1.response.ResponseFoodDetail;
+import com.example.DoAn1.response.ResponseFoodStatistic;
 import com.example.DoAn1.response.ResponseFoods;
 import com.example.DoAn1.utils.UtilsHandleJson;
 
@@ -446,4 +447,29 @@ public class SupportFoodService {
         return fileName.toLowerCase().contains("remove");
     }
 
+    public List<ResponseFoodStatistic> createListResponseFoodStatistics(List<Food> list) {
+        List<ResponseFoodStatistic> list1 = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            list1.add(foodToResponseFoodStatistic(list.get(i)));
+        }
+        return list1;
+    }
+
+    public ResponseFoodStatistic foodToResponseFoodStatistic(Food food) {
+        return ResponseFoodStatistic.builder()
+                .name(food.getName())
+                .level(food.getLevel())
+                .method(food.getMethod())
+                .diet(food.getDiet())
+                .calories(food.getCalories())
+                .carb(food.getCarb())
+                .protein(food.getProtein())
+                .fat(food.getFat())
+                .time(food.getTime())
+                .type(food.getType())
+                .numberOfLikes(food.getNumberOfLikes())
+                .vote(createStars(food.getId()))
+                .linkImage("http://localhost:8080/FoodImages/" + convertToNoAccent(food.getName()) + "/1.png")
+                .build();
+    }
 }

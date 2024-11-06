@@ -32,4 +32,9 @@ public interface ExerciseRepository extends JpaRepository<Excercise, String> {
     @Transactional
     @Query(value = "delete from user_vote_excercise where excercise_id = :exerciseId", nativeQuery = true)
     public void deleteUserVoteExercise(String exerciseId);
+
+    @Query(value = "select * from exercise\n" + //
+            "order by number_of_likes desc\n" + //
+            "limit 3", nativeQuery = true)
+    public List<Excercise> getTop3Exercise();
 }

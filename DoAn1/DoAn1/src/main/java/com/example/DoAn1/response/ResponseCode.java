@@ -43,7 +43,8 @@ public enum ResponseCode {
     CreateChallenges(1000, "create challenge successfully!"),
     EditChallenge(1000, "Edit challenge successfully!"),
     DeleteChallenge(1000, "Delete challenge successfully!"),
-    UploadUserImage(1000, "Upload user image successfully!");
+    UploadUserImage(1000, "Upload user image successfully!"),
+    RateApp(1000, "Rate app successfully!");
 
     private int code;
     private String message;

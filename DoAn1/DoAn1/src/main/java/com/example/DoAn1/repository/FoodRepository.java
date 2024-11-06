@@ -45,4 +45,9 @@ public interface FoodRepository extends JpaRepository<Food, String> {
     @Transactional
     @Query(value = "delete from user_vote_food where food_id = :foodId", nativeQuery = true)
     public void deleteUserVoteFood(String foodId);
+
+    @Query(value = "select * from food\n" + //
+            "order by food.number_of_likes desc\n" + //
+            "limit 3", nativeQuery = true)
+    public List<Food> getTop3Food();
 }

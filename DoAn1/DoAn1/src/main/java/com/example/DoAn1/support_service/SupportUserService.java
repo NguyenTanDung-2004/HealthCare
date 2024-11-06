@@ -22,6 +22,7 @@ import com.example.DoAn1.mapper.UserMapper;
 import com.example.DoAn1.repository.UserHistoryRepository;
 import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.request.UserInfoUpdateRequest;
+import com.example.DoAn1.response.ResponseUserStatistic;
 import com.example.DoAn1.response.response_user_info.ResponseUserInfo;
 import com.example.DoAn1.utils.UtilsHandleJwtToken;
 
@@ -277,6 +278,22 @@ public class SupportUserService {
             userHistory.setTotalFat(totalCalories * 30 / 900);
             userHistory.setTotalProtein(totalCalories * 50 / 400);
         }
+    }
+
+    public ResponseUserStatistic listTResponseUserStatistic(List<Integer> list) {
+        return ResponseUserStatistic.builder()
+                .totalUsers(list.get(0))
+                .userUnder35(list.get(1))
+                .userOver35(list.get(2))
+                .userOver55(list.get(3))
+                .userThieuCan(list.get(4))
+                .userBinhThuong(list.get(5))
+                .userThuaCan(list.get(6))
+                .userBeoPhi(list.get(7))
+                .bad(list.get(8))
+                .good(list.get(9))
+                .satisfied(list.get(10))
+                .build();
     }
 
 }
