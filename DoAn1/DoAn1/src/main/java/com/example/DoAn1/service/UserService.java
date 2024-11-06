@@ -23,6 +23,7 @@ import com.example.DoAn1.request.UserCompleteRequest;
 import com.example.DoAn1.request.UserCreationRequest;
 import com.example.DoAn1.request.UserInfoUpdateRequest;
 import com.example.DoAn1.response.ResponseCode;
+import com.example.DoAn1.response.ResponseUserComment;
 import com.example.DoAn1.response.ResponseUserStatistic;
 import com.example.DoAn1.response.response_user_info.ResponseUserInfo;
 import com.example.DoAn1.support_service.SupportUserService;
@@ -216,5 +217,14 @@ public class UserService {
         this.userRepository.save(user);
         // return
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.RateApp));
+    }
+
+    public ResponseEntity getUserComment() {
+        // get list user with comment is not null
+        List<User> list = this.userRepository.getListUser();
+        // create response
+        List<ResponseUserComment> responseUserComment = this.supportUserService.createListUserComments(list);
+        // return
+        return ResponseEntity.ok().body(responseUserComment);
     }
 }

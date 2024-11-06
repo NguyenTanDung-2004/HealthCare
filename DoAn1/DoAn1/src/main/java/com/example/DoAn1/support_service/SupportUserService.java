@@ -1,5 +1,6 @@
 package com.example.DoAn1.support_service;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -22,8 +23,10 @@ import com.example.DoAn1.mapper.UserMapper;
 import com.example.DoAn1.repository.UserHistoryRepository;
 import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.request.UserInfoUpdateRequest;
+import com.example.DoAn1.response.ResponseUserComment;
 import com.example.DoAn1.response.ResponseUserStatistic;
 import com.example.DoAn1.response.response_user_info.ResponseUserInfo;
+import com.example.DoAn1.utils.UtilsHandleFile;
 import com.example.DoAn1.utils.UtilsHandleJwtToken;
 
 import jakarta.servlet.http.Cookie;
@@ -43,6 +46,9 @@ public class SupportUserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UtilsHandleFile utilsHandleFile;
 
     @Value("${jwt.time}")
     private int jwtTime;
@@ -294,6 +300,34 @@ public class SupportUserService {
                 .good(list.get(9))
                 .satisfied(list.get(10))
                 .build();
+    }
+
+    public List<ResponseUserComment> createListUserComments(List<User> list) {
+        List<ResponseUserComment> list1 = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            list1.add(userToResponseUserComment(list.get(i)));
+        }
+        return list1;
+    }
+
+    public ResponseUserComment userToResponseUserComment(User user) {
+        return ResponseUserComment.builder()
+                .linkImage(createUserImage(user.getUserId()))
+                .name(user.getFirstName() + " " + user.getLastName())
+                .email(user.getEmail())
+                .flag(user.getFlag())
+                .listComments(user.getListComments())
+                .build();
+    }
+
+    public String createUserImage(String userId) {
+        String folderPath = this.utilsHandleFile.getPathOfStatic();
+        File f = new File(folderPath + "/UserImages/" + userId + ".png");
+        if (f.exists()) {
+            return "http://localhost:8080/UserImages/" + userId + ".png";
+        } else {
+            return "http://localhost:8080/UserImages/Default.png";
+        }
     }
 
 }

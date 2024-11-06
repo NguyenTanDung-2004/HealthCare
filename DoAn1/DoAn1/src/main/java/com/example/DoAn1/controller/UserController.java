@@ -94,4 +94,9 @@ public class UserController {
             @RequestBody RequestRateApp requestRateApp) {
         return this.userService.rateTheApp(httpServletRequest, requestRateApp);
     }
+
+    @GetMapping("/getUserComment")
+    public ResponseEntity getUserComment() {
+        return this.userService.getUserComment();
+    }
 }

@@ -77,4 +77,7 @@ public interface UserRepository extends JpaRepository<User, String> {
                         "    sum(case when flag = 3 then 1 else 0 end) as c\n" + //
                         "from user", nativeQuery = true)
         public List<List<Integer>> getRateData();
+
+        @Query(value = "select * from user where list_comments is not null", nativeQuery = true)
+        public List<User> getListUser();
 }
