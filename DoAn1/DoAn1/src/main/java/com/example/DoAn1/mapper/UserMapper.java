@@ -39,6 +39,7 @@ public class UserMapper {
                 .dob(userCreationRequest.getDob())
                 .password(utilsHandlePassword.encryptPassword(userCreationRequest.getPassword()))
                 .heSoHoatDong((float) 1)
+                .flag(2)
                 .build();
         return user;
     }

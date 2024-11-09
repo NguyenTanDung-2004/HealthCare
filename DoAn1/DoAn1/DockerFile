@@ -1,5 +1,14 @@
-FROM library/tomcat:10-jdk17
-run rm -rf /usr/local/tomcat/webapps/*
-copy target/DoAn1-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
-expose 8080
-cmd ["catalina.sh", "run"]
+# Sử dụng hình ảnh Tomcat với JDK 21 và Ubuntu Jammy
+FROM tomcat:10.1.31-jdk21-temurin-jammy
+
+# Xóa tất cả các ứng dụng mặc định trong thư mục webapps của Tomcat
+RUN rm -rf /usr/local/tomcat/webapps/*
+
+# Sao chép file WAR vào thư mục webapps của Tomcat
+COPY target/DoAn1-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
+
+# Mở cổng 8080 cho Tomcat
+EXPOSE 8080
+
+# Chạy Tomcat với lệnh mặc định
+CMD ["catalina.sh", "run"]
