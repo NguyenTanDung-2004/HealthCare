@@ -97,7 +97,7 @@ public class UserMapper {
                 .currentCarb(userHistory.getCurrentCarb())
                 .totalProtein(userHistory.getTotalProtein())
                 .currentProtein(userHistory.getCurrentProtein())
-                .currentBurned(userHistory.getCurrentBurned())
+                .currentBurned((userHistory.getCurrentBurned() != null) ? userHistory.getCurrentBurned() : 0)
                 .build();
     }
 

@@ -41,19 +41,24 @@ public class UtilsHandleFile {
         return map;
     }
 
-    public String getPathOfStatic() {
-        // ClassPathResource resource = new ClassPathResource("static/");
+    public static String getPathServer() {
+        return "http://localhost:8080/DoAn1-0.0.1-SNAPSHOT/";
+    }
 
-        // File directory = null;
-        // try {
-        // directory = resource.getFile();
-        // } catch (IOException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // } // Lấy đối tượng File của thư mục
-        // System.out.println(directory.getAbsolutePath());
-        // return directory.getAbsolutePath();
-        return "C:\\Users\\user\\Downloads\\TaiLieuHocTap\\Mon_hoc_UIT\\hocki5\\DoAn1\\Project\\Project1_NutritionAndExerciseRecommendationSystem\\DoAn1\\DoAn1\\src\\main\\resources\\static";
+    public String getPathOfStatic() {
+        ClassPathResource resource = new ClassPathResource("static/");
+
+        File directory = null;
+        try {
+            directory = resource.getFile();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } // Lấy đối tượng File của thư mục
+        System.out.println(directory.getAbsolutePath());
+        return directory.getAbsolutePath();
+        // return
+        // "C:\\Users\\user\\Downloads\\TaiLieuHocTap\\Mon_hoc_UIT\\hocki5\\DoAn1\\Project\\Project1_NutritionAndExerciseRecommendationSystem\\DoAn1\\DoAn1\\src\\main\\resources\\static";
     }
 
     public static void main(String[] args) {

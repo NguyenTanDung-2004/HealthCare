@@ -1,0 +1,5 @@
+FROM library/tomcat:10-jdk17
+run rm -rf /usr/local/tomcat/webapps/*
+copy target/DoAn1-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
+expose 8080
+cmd ["catalina.sh", "run"]
