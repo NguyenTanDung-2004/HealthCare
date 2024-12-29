@@ -73,24 +73,24 @@ public class SupportFoodService {
     private UserHistoryRepository userHistoryRepository;
 
     public void updateFood(FoodEditRequest foodEditRequest, Food food) {
-        // food.setName(foodEditRequest.getName());
-        // food.setLevel(foodEditRequest.getLevel());
-        // food.setMethod(foodEditRequest.getMethod());
-        // food.setDiet(foodEditRequest.getDiet());
-        // food.setCalories(foodEditRequest.getCalories());
-        // food.setTime(foodEditRequest.getTime());
-        // food.setType(foodEditRequest.getType());
-        // food.setListIngredient(foodEditRequest.getListIngredient());
-        // food.setListCaloriesIngredient(foodEditRequest.getListCaloriesIngredient());
+        food.setName(foodEditRequest.getName());
+        food.setLevel(foodEditRequest.getLevel());
+        food.setMethod(foodEditRequest.getMethod());
+        food.setDiet(foodEditRequest.getDiet());
+        food.setCalories(foodEditRequest.getCalories());
+        food.setTime(foodEditRequest.getTime());
+        food.setType(foodEditRequest.getType());
+        food.setListIngredient(foodEditRequest.getListIngredient());
+        food.setListCaloriesIngredient(foodEditRequest.getListCaloriesIngredient());
         food.setListStep(foodEditRequest.getListStep());
-        // food.setListLinkImage(foodEditRequest.getListLinkImage());
+        food.setListLinkImage(foodEditRequest.getListLinkImage());
         food.setLinkVideo(foodEditRequest.getLinkVideo());
-        // food.setCarb(foodEditRequest.getCarb());
-        // food.setProtein(foodEditRequest.getProtein());
-        // food.setFat(foodEditRequest.getFat());
-        // food.setFlagBloodPressure(foodEditRequest.getFlagBloodPressure());
-        // food.setFlagBloodGlucose(foodEditRequest.getFlagBloodGlucose());
-        // food.setFlagHeart(foodEditRequest.getFlagHeart());
+        food.setCarb(foodEditRequest.getCarb());
+        food.setProtein(foodEditRequest.getProtein());
+        food.setFat(foodEditRequest.getFat());
+        food.setFlagBloodPressure(foodEditRequest.getFlagBloodPressure());
+        food.setFlagBloodGlucose(foodEditRequest.getFlagBloodGlucose());
+        food.setFlagHeart(foodEditRequest.getFlagHeart());
         // save
         this.foodRepository.save(food);
     }

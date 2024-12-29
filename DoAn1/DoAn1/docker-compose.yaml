@@ -8,19 +8,19 @@ services:
     depends_on:
       - db                    # Đảm bảo db sẽ được khởi động trước
     environment:
-      - DB_HOST=db            # Biến môi trường để kết nối tới DB
-      - DB_PORT=3306          # Cổng MySQL (nếu sử dụng MySQL)
-      - DB_NAME=do_an1        # Tên cơ sở dữ liệu
-      - DB_USERNAME=root        # Tên người dùng MySQL
-      - DB_PASSWORD=12345     # Mật khẩu MySQL
+      DB_HOST: db             # Biến môi trường để kết nối tới DB
+      DB_PORT: 3306           # Cổng MySQL (nếu sử dụng MySQL)
+      DB_NAME: do_an1         # Tên cơ sở dữ liệu
+      DB_USERNAME: root       # Tên người dùng MySQL
+      DB_PASSWORD: 12345      # Mật khẩu MySQL
     networks:
       - doan_network
 
   db:
-    image: database_doan1:1.0.0  # Sử dụng image của database đã build
+    image: mysql:latest       # Sử dụng image MySQL
     environment:
-      - MYSQL_ROOT_PASSWORD=12345 # Mật khẩu root MySQL
-      - MYSQL_DATABASE=do_an1    # Tên cơ sở dữ liệu ban đầu
+      MYSQL_ROOT_PASSWORD: 12345 # Mật khẩu root MySQL
+      MYSQL_DATABASE: do_an1     # Tên cơ sở dữ liệu ban đầu
     ports:
       - "3307:3306"              # Mở cổng MySQL 3306
     networks:

@@ -92,7 +92,7 @@ public class Food {
         this.listWeightIngredient = new ArrayList<>(other.listWeightIngredient);
         this.listCaloriesIngredient = new ArrayList<>(other.listCaloriesIngredient);
         this.listStep = new ArrayList<>(other.listStep);
-        this.listLinkImage = new ArrayList<>(other.listLinkImage);
+        // this.listLinkImage = new ArrayList<>(other.listLinkImage);
         this.linkVideo = other.linkVideo;
         this.carb = other.carb;
         this.protein = other.protein;

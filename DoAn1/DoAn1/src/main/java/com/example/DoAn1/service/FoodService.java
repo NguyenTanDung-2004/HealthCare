@@ -255,6 +255,7 @@ public class FoodService {
         }
         // create new food through mapper
         Food food1 = FoodMapper.convertRequest(foodCreationRequest);
+        System.out.println(food1);
         // set data for food
         food.setValue(food1);
         // update
