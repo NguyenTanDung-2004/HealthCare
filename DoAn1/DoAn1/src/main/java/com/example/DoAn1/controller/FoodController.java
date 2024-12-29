@@ -47,10 +47,10 @@ public class FoodController {
     @Autowired
     private FoodRepository foodRepository;
 
-    @GetMapping("/getAllFood")
-    public ResponseEntity getAllFood() {
-        return ResponseEntity.ok().body(this.foodRepository.findAll());
-    }
+    // @GetMapping("/getAllFood")
+    // public ResponseEntity getAllFood() {
+    // return ResponseEntity.ok().body(this.foodRepository.findAll());
+    // }
 
     @PostMapping("/editFood")
     public ResponseEntity editFood(@RequestBody FoodEditRequest foodEditRequest) {

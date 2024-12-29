@@ -35,4 +35,7 @@ public class ResponseUserInfo {
     // add currentBurned
     private float currentBurned;
 
+    // id
+    private String id;
+
 }

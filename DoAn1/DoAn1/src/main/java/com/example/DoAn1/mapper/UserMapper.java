@@ -99,6 +99,7 @@ public class UserMapper {
                 .totalProtein(userHistory.getTotalProtein())
                 .currentProtein(userHistory.getCurrentProtein())
                 .currentBurned((userHistory.getCurrentBurned() != null) ? userHistory.getCurrentBurned() : 0)
+                .id(user.getUserId())
                 .build();
     }
 
