@@ -16,4 +16,5 @@ public class ResponseExercises {
     private float stars;
     private int time;
     private String exerciseId;
+    private String type;
 }

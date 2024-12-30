@@ -114,6 +114,7 @@ public class SupportExerciseService {
                 .stars(createStars(excercise.getId()))
                 .time(excercise.getTime()) // s
                 .exerciseId(excercise.getId())
+                .type(excercise.getType())
                 .build();
     }
 
