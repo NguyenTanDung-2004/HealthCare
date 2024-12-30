@@ -194,6 +194,7 @@ public class SupportFoodService {
                 // stars
                 // related food
                 .flagLiked(creatFlagLiked(food.getId(), user.getUserId()))
+                .listStep(food.getListStep())
                 .build();
     }
 

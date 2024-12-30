@@ -36,4 +36,5 @@ public class ResponseFoodDetail {
     private int flagLiked;
     private float stars;
     private Set<RelatedFood> relatedFoods;
+    private List<String> listStep;
 }
