@@ -182,11 +182,12 @@ public class SupportExerciseService {
     public List<String> createListLinkImage(Excercise excercise) {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < excercise.getListImages().size(); i++) {
-            list.add("http://localhost:8080/" + excercise.getListImages().get(i).replace("\\", "/"));
+            String s = this.supportFoodService.convertToNoAccent(excercise.getName());
+            s = "http://localhost:8080/ExcerciseImages/" + s + "/" + (i + 1) + ".png";
+            list.add(s);
         }
-        String s = excercise.getListImages().get(0).replace("\\", "/");
-        s = s.substring(0, s.length() - 5);
-        s = "http://localhost:8080/" + s + "Remove.png";
+        String s = this.supportFoodService.convertToNoAccent(excercise.getName());
+        s = "http://localhost:8080/ExcerciseImages/" + s + "/Remove.png";
         list.add(s);
         return list;
     }
