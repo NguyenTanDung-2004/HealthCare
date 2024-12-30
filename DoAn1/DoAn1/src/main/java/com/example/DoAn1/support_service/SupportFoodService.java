@@ -347,6 +347,8 @@ public class SupportFoodService {
                 .numberOfLikes(food.getNumberOfLikes())
                 .stars(createStars(food.getId()))
                 .id(food.getId())
+                .level(food.getLevel())
+                .diet(food.getDiet())
                 .build();
     }
 

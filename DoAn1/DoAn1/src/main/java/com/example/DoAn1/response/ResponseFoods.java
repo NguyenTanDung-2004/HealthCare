@@ -18,4 +18,6 @@ public class ResponseFoods {
     private int numberOfLikes;
     private double stars;
     private String id;
+    private int level;
+    private int diet;
 }
