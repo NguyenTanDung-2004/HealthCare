@@ -21,13 +21,13 @@ public class ResponseDateReport {
     private Float currentBurned;
     // fat
     private Float totalFat;
-    private Float fat;
+    private Float currentFat;
     // protein
     private Float totalProtein;
-    private Float protein;
+    private Float currentProtein;
     // carb
     private Float totalCarb;
-    private Float carb;
+    private Float currentCarb;
     // list exercise
     private List<ExerciseInReport> listExerciseInReport;
     // list food

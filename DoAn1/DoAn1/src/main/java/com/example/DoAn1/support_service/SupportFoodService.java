@@ -205,6 +205,7 @@ public class SupportFoodService {
         List<String> list = new ArrayList<>();
         String prefixString = "http://localhost:8080/FoodImages";
         String formattedFoodName = convertToNoAccent(foodName);
+        System.out.println(formattedFoodName);
         List<String> listFileNames = getAllFileInFolder(formattedFoodName);
 
         for (int i = 0; i < listFileNames.size(); i++) {

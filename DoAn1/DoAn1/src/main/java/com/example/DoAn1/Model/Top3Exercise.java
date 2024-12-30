@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class Top3Exercise {
     private String linkRemovedImage;
     private int numberOfUsers;
+    private String name;
 }

@@ -132,6 +132,7 @@ public class SupportChallengeService {
             Top3Exercise top3Exercise = Top3Exercise.builder()
                     .numberOfUsers((int) list.get(i)[0])
                     .linkRemovedImage(createLinkRemove((String) list.get(i)[1]))
+                    .name((String) list.get(i)[1])
                     .build();
             listTop3Exercise.add(top3Exercise);
         }

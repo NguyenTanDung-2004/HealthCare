@@ -24,4 +24,5 @@ public class ResponseRankData {
     List<Top3Exercise> top3Exercise;
     // list user
     List<UserInRank> listUserInRanks;
+
 }

@@ -329,13 +329,13 @@ public class SupportUserHistoryService {
                 .currentBurned(userHistory.getCurrentBurned())
                 // fat
                 .totalFat(userHistory.getTotalFat())
-                .fat(userHistory.getCurrentFat())
+                .currentFat(userHistory.getCurrentFat())
                 // protein
                 .totalProtein(userHistory.getTotalProtein())
-                .protein(userHistory.getTotalProtein())
+                .currentProtein(userHistory.getTotalProtein())
                 // carb
                 .totalCarb(userHistory.getTotalCarb())
-                .carb(userHistory.getCurrentCarb())
+                .currentCarb(userHistory.getCurrentCarb())
                 // list exercise
                 .listExerciseInReport(createListExercise(userHistory, weight))
                 // list food
