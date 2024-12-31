@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserInfoUpdateRequest {
+    private String firstName;
+    private String lastName;
     private String gender;
     private Date dob;
     private float height;
