@@ -179,6 +179,8 @@ public class SupportUserService {
     }
 
     public void updateUser(User user, UserInfoUpdateRequest userInfoUpdateRequest) {
+        user.setFirstName(userInfoUpdateRequest.getFirstName());
+        user.setLastName(userInfoUpdateRequest.getLastName());
         user.setGentle(userInfoUpdateRequest.getGender());
         user.setDob(userInfoUpdateRequest.getDob());
         user.setHeight(userInfoUpdateRequest.getHeight());
