@@ -143,13 +143,20 @@ public class SupportExerciseService {
     }
 
     public ResponseAdminExercise createResponseAdminExercise(Excercise excercise) {
+        // create number of practice
+        int numberOfPractices = 0;
+
+        if (excercise.getNumberOfPractices() != null) {
+            numberOfPractices = excercise.getNumberOfPractices();
+        }
+
         return ResponseAdminExercise.builder()
                 .met(excercise.getMet())
                 .exerciseId(excercise.getId())
                 .exerciseName(excercise.getName())
                 .linkImage(createLinkImageInAllExercise(excercise))
                 .time(excercise.getTime())
-                .numberOfPractices(excercise.getNumberOfPractices())
+                .numberOfPractices(numberOfPractices)
                 .build();
     }
 

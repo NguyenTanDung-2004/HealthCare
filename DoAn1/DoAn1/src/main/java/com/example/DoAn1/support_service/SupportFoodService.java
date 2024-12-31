@@ -351,6 +351,9 @@ public class SupportFoodService {
                 .id(food.getId())
                 .level(food.getLevel())
                 .diet(food.getDiet())
+                .fat(food.getFat())
+                .protein(food.getProtein())
+                .carb(food.getCarb())
                 .build();
     }
 
