@@ -20,4 +20,8 @@ public class ResponseFoods {
     private String id;
     private int level;
     private int diet;
+
+    private Double carb;
+    private Double fat;
+    private Double protein;
 }
