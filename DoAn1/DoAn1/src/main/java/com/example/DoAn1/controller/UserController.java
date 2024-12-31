@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.DoAn1.entities.Food;
 import com.example.DoAn1.repository.FoodRepository;
 import com.example.DoAn1.request.RequestRateApp;
+import com.example.DoAn1.request.RequestUpdateExtractUserInfo;
 import com.example.DoAn1.request.UserCompleteRequest;
 import com.example.DoAn1.request.UserCreationRequest;
 import com.example.DoAn1.request.UserInfoUpdateRequest;
@@ -100,6 +101,10 @@ public class UserController {
         return this.userService.getUserComment();
     }
 
-    // @PostMapping("/updateUserInfoWithoutFlag")
+    @PostMapping("/updateExactData")
+    public ResponseEntity updateExactData(HttpServletRequest httpServletRequest,
+            @RequestBody() RequestUpdateExtractUserInfo requestUpdateExtractUserInfo) {
+        return this.userService.updateExactData(httpServletRequest, requestUpdateExtractUserInfo);
+    }
 
 }

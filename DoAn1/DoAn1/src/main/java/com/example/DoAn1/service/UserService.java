@@ -19,6 +19,7 @@ import com.example.DoAn1.repository.UserHistoryRepository;
 import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.request.UserUpdatePasswordRequest;
 import com.example.DoAn1.request.RequestRateApp;
+import com.example.DoAn1.request.RequestUpdateExtractUserInfo;
 import com.example.DoAn1.request.UserCompleteRequest;
 import com.example.DoAn1.request.UserCreationRequest;
 import com.example.DoAn1.request.UserInfoUpdateRequest;
@@ -226,5 +227,21 @@ public class UserService {
         List<ResponseUserComment> responseUserComment = this.supportUserService.createListUserComments(list);
         // return
         return ResponseEntity.ok().body(responseUserComment);
+    }
+
+    public ResponseEntity updateExactData(HttpServletRequest httpServletRequest,
+            RequestUpdateExtractUserInfo requestUpdateExtractUserInfo) {
+        // get user
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        User user = this.userRepository.findById(userId).get();
+
+        // save
+        this.supportUserService.updateUser(user, requestUpdateExtractUserInfo);
+
+        // user history
+        this.supportUserService.updateUserHistory(user, requestUpdateExtractUserInfo);
+
+        return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UpdateUserInfo));
     }
 }

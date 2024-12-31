@@ -22,6 +22,7 @@ import com.example.DoAn1.exception.ExceptionUser;
 import com.example.DoAn1.mapper.UserMapper;
 import com.example.DoAn1.repository.UserHistoryRepository;
 import com.example.DoAn1.repository.UserRepository;
+import com.example.DoAn1.request.RequestUpdateExtractUserInfo;
 import com.example.DoAn1.request.UserInfoUpdateRequest;
 import com.example.DoAn1.response.ResponseUserComment;
 import com.example.DoAn1.response.ResponseUserStatistic;
@@ -200,7 +201,42 @@ public class SupportUserService {
         this.userRepository.save(user);
     }
 
+    public void updateUser(User user, RequestUpdateExtractUserInfo userInfoUpdateRequest) {
+        user.setFirstName(userInfoUpdateRequest.getFirstName());
+        user.setLastName(userInfoUpdateRequest.getLastName());
+        user.setGentle(userInfoUpdateRequest.getGender());
+        user.setDob(userInfoUpdateRequest.getDob());
+        user.setHeight(userInfoUpdateRequest.getHeight());
+        user.setWeight(userInfoUpdateRequest.getWeight());
+        // blood pressure
+        user.setBloodPressure(userInfoUpdateRequest.getBloodPressure());
+        user.setBloodPressure1(userInfoUpdateRequest.getBloodPressure1());
+        // heart rate
+        user.setHearBeat(userInfoUpdateRequest.getHeartBeat());
+        // gluco
+        user.setBloodSugar(userInfoUpdateRequest.getGluco());
+        user.setBloodSugar1(userInfoUpdateRequest.getGluco1());
+        // he so hoat dong
+        user.setHeSoHoatDong(userInfoUpdateRequest.getHeSoHoatDong());
+
+        // save
+        this.userRepository.save(user);
+    }
+
     public void updateUserHistory(User user, UserInfoUpdateRequest userInfoUpdateRequest) {
+        // get current Date
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int value = localDate.getDayOfMonth() + localDate.getMonthValue() * 10 + localDate.getYear() * 100;
+        // get list user history
+        List<UserHistory> list = this.userHistoryRepository.getListUserHistory(value, user.getUserId());
+        // iterate and update user history
+        for (int i = 0; i < list.size(); i++) {
+            update1UserHistory(list.get(i), userInfoUpdateRequest, user);
+        }
+    }
+
+    public void updateUserHistory(User user, RequestUpdateExtractUserInfo userInfoUpdateRequest) {
         // get current Date
         Date date = new Date();
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -224,6 +260,26 @@ public class SupportUserService {
         // gluco
         userHistory.setBloodSugar(createBloodGluco(userInfoUpdateRequest.getFlagGluco()).getValue1());
         userHistory.setBloodSugar1(createBloodGluco(userInfoUpdateRequest.getFlagGluco()).getValue2());
+        // he so hoat dong
+        userHistory.setHeSoHoatDong(userInfoUpdateRequest.getHeSoHoatDong());
+        // update total calories fat carb protein
+        updateTotalCalories_Fat_Carb_Protetin(userHistory, user);
+        // save
+        this.userHistoryRepository.save(userHistory);
+    }
+
+    public void update1UserHistory(UserHistory userHistory, RequestUpdateExtractUserInfo userInfoUpdateRequest,
+            User user) {
+        userHistory.setHeight(userInfoUpdateRequest.getHeight());
+        userHistory.setWeight(userInfoUpdateRequest.getWeight());
+        // blood pressure
+        userHistory.setBloodPressure(userInfoUpdateRequest.getBloodPressure());
+        userHistory.setBloodPressure1(userInfoUpdateRequest.getBloodPressure1());
+        // heart rate
+        userHistory.setHearBeat(userInfoUpdateRequest.getHeartBeat());
+        // gluco
+        userHistory.setBloodSugar(userInfoUpdateRequest.getGluco());
+        userHistory.setBloodSugar1(userInfoUpdateRequest.getGluco1());
         // he so hoat dong
         userHistory.setHeSoHoatDong(userInfoUpdateRequest.getHeSoHoatDong());
         // update total calories fat carb protein

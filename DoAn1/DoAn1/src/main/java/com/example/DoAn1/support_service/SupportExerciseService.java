@@ -210,14 +210,15 @@ public class SupportExerciseService {
 
     public List<String> createListLinkImage(Excercise excercise) {
         List<String> list = new ArrayList<>();
-        for (int i = 0; i < excercise.getListImages().size(); i++) {
-            String s = this.supportFoodService.convertToNoAccent(excercise.getName());
-            s = "http://localhost:8080/ExcerciseImages/" + s + "/" + (i + 1) + ".png";
+        List<String> list1 = getAllFileInFolder(this.supportFoodService.convertToNoAccent(excercise.getName()));
+        for (int i = 0; i < list1.size(); i++) {
+            String s = "http://localhost:8080/ExcerciseImages/"
+                    + this.supportFoodService.convertToNoAccent(excercise.getName()) + "/" + list1.get(i);
             list.add(s);
         }
-        String s = this.supportFoodService.convertToNoAccent(excercise.getName());
-        s = "http://localhost:8080/ExcerciseImages/" + s + "/Remove.png";
-        list.add(s);
+        // String s = this.supportFoodService.convertToNoAccent(excercise.getName());
+        // s = "http://localhost:8080/ExcerciseImages/" + s + "/Remove.png";
+        // list.add(s);
         return list;
     }
 
