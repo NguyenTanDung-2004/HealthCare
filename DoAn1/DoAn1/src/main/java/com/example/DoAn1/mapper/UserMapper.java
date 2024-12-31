@@ -100,6 +100,9 @@ public class UserMapper {
                 .currentProtein(userHistory.getCurrentProtein())
                 .currentBurned((userHistory.getCurrentBurned() != null) ? userHistory.getCurrentBurned() : 0)
                 .id(user.getUserId())
+                .gluco(userHistory.getBloodSugar())
+                .pressure(userHistory.getBloodPressure())
+                .beat(userHistory.getHearBeat())
                 .build();
     }
 

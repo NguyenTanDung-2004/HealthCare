@@ -103,4 +103,9 @@ public class ExcerciseController {
     public ResponseEntity getExerciseStatistic() {
         return this.exerciseService.getExerciseStatistic();
     }
+
+    @GetMapping("/adminGetAll")
+    public ResponseEntity adminGetAll() {
+        return this.exerciseService.adminGetAll();
+    }
 }
