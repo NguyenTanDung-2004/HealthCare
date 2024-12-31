@@ -290,4 +290,12 @@ public class ExerciseService {
         // return
         return ResponseEntity.ok().body(listResponseExerciseStatistics);
     }
+
+    public ResponseEntity adminGetAll() {
+        // create response
+        // java.util.List<ResponseExercises> listResponseExercises = new ArrayList<>();
+        List<Excercise> listExcercises = this.exerciseRepository.findAll();
+
+        return ResponseEntity.ok().body(this.supportExerciseService.createListResponseExercises(listExcercises));
+    }
 }

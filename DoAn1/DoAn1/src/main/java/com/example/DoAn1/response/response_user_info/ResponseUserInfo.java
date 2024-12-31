@@ -38,4 +38,9 @@ public class ResponseUserInfo {
     // id
     private String id;
 
+    //
+    private float gluco;
+    private float pressure;
+    private float beat;
+
 }

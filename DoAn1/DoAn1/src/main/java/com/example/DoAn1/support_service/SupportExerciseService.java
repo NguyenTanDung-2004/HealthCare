@@ -20,6 +20,7 @@ import com.example.DoAn1.repository.StatusFoodExcerciseRepository;
 import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.repository.UserVoteExerciseRepository;
 import com.example.DoAn1.request.ExcerciseCreationRequest;
+import com.example.DoAn1.response.ResponseAdminExercise;
 import com.example.DoAn1.response.ResponseExerciseDetail;
 import com.example.DoAn1.response.ResponseExerciseStatistic;
 import com.example.DoAn1.response.ResponseExercises;
@@ -126,9 +127,30 @@ public class SupportExerciseService {
         }
     }
 
+    public List<ResponseAdminExercise> createListResponseExercises(List<Excercise> list) {
+        List<ResponseAdminExercise> listResponse = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++) {
+            listResponse.add(createResponseAdminExercise(list.get(i)));
+        }
+
+        return listResponse;
+    }
+
     public String createLinkImageInAllExercise(Excercise excercise) {
         return "http://localhost:8080/ExcerciseImages/" + this.supportFoodService.convertToNoAccent(excercise.getName())
                 + "/Remove.png";
+    }
+
+    public ResponseAdminExercise createResponseAdminExercise(Excercise excercise) {
+        return ResponseAdminExercise.builder()
+                .met(excercise.getMet())
+                .exerciseId(excercise.getId())
+                .exerciseName(excercise.getName())
+                .linkImage(createLinkImageInAllExercise(excercise))
+                .time(excercise.getTime())
+                .numberOfPractices(excercise.getNumberOfPractices())
+                .build();
     }
 
     public int createCaloriesBasedOnMet(Excercise excercise, User user) {

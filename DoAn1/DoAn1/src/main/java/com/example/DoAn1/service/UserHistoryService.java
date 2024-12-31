@@ -72,6 +72,14 @@ public class UserHistoryService {
         User user = this.userRepository.findById(userId).get();
         // get exercise
         Excercise excercise = this.exerciseRepository.findById(exerciseId).get();
+
+        // increase numer of practice
+        if (excercise.getNumberOfPractices() == null) {
+            excercise.setNumberOfPractices(1);
+        } else {
+            excercise.setNumberOfPractices(excercise.getNumberOfPractices() + 1);
+        }
+
         // get userHistory
         DayMonthYear currentDayMonthYear = this.supportUserHistoryService.getCurrentDayMonthYear();
         UserHistoryId userHistoryId = new UserHistoryId(currentDayMonthYear.getDay(), currentDayMonthYear.getMonth(),
@@ -84,6 +92,7 @@ public class UserHistoryService {
         this.supportUserHistoryService.updateCurrentBurned(calories, userHistory);
         // save
         this.userHistoryRepository.save(userHistory);
+        this.exerciseRepository.save(excercise);
         // response
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.RecordExercise));
     }

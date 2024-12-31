@@ -39,6 +39,7 @@ public class Excercise {
     private List<String> listImages;
     private String linkVideo;
     private String type;
+    private Integer numberOfPractices;
 
     @Column(nullable = false, columnDefinition = "Integer default 0")
     private Integer numberOfLikes;

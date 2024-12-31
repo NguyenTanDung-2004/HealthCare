@@ -10,6 +10,7 @@ import com.example.DoAn1.entities.User;
 import com.example.DoAn1.entities.user_challenge.UserChallenge;
 import com.example.DoAn1.entities.user_challenge.UserChallengeId;
 import com.example.DoAn1.repository.ChallengeRepository;
+import com.example.DoAn1.repository.ExerciseRepository;
 import com.example.DoAn1.repository.UserChallengeRepository;
 import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.request.RequestCreateExerciseChallenge;
@@ -46,6 +47,9 @@ public class ChallengeService {
 
     @Autowired
     private SupportChallengeService supportChallengeService;
+
+    @Autowired
+    private ExerciseRepository exerciseRepository;
 
     public ResponseEntity createChallenges(List<RequestCreateExerciseChallenge> listRequestCreateExerciseChallenges) {
         // iterate
@@ -123,6 +127,16 @@ public class ChallengeService {
         String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
         String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
         User user = this.userRepository.findById(userId).get();
+
+        // exercise
+        Excercise excercise = this.exerciseRepository.findById(exerciseId).get();
+        // increase numer of practice
+        if (excercise.getNumberOfPractices() == null) {
+            excercise.setNumberOfPractices(1);
+        } else {
+            excercise.setNumberOfPractices(excercise.getNumberOfPractices() + 1);
+        }
+
         // get challenge
         Challenge challenge = this.challengeRepository.findById(exerciseId).get();
         // update point in user
