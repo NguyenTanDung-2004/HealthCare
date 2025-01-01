@@ -4,20 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.DoAn1.Model.DayMonthYear;
 import com.example.DoAn1.entities.Challenge;
 import com.example.DoAn1.entities.Excercise;
 import com.example.DoAn1.entities.User;
 import com.example.DoAn1.entities.user_challenge.UserChallenge;
 import com.example.DoAn1.entities.user_challenge.UserChallengeId;
+import com.example.DoAn1.entities.user_history.UserHistory;
+import com.example.DoAn1.entities.user_history.UserHistoryId;
 import com.example.DoAn1.repository.ChallengeRepository;
 import com.example.DoAn1.repository.ExerciseRepository;
 import com.example.DoAn1.repository.UserChallengeRepository;
+import com.example.DoAn1.repository.UserHistoryRepository;
 import com.example.DoAn1.repository.UserRepository;
 import com.example.DoAn1.request.RequestCreateExerciseChallenge;
 import com.example.DoAn1.response.ResponseCode;
 import com.example.DoAn1.response.ResponseExerciseChallenge;
 import com.example.DoAn1.response.ResponseRankData;
 import com.example.DoAn1.support_service.SupportChallengeService;
+import com.example.DoAn1.support_service.SupportUserHistoryService;
 import com.example.DoAn1.support_service.SupportUserService;
 import com.example.DoAn1.utils.UtilsHandleJwtToken;
 
@@ -50,6 +55,12 @@ public class ChallengeService {
 
     @Autowired
     private ExerciseRepository exerciseRepository;
+
+    @Autowired
+    private SupportUserHistoryService supportUserHistoryService;
+
+    @Autowired
+    private UserHistoryRepository userHistoryRepository;
 
     public ResponseEntity createChallenges(List<RequestCreateExerciseChallenge> listRequestCreateExerciseChallenges) {
         // iterate
@@ -168,6 +179,20 @@ public class ChallengeService {
             userChallenge.setNumber(userChallenge.getNumber() + 1);
             this.userChallengeRepository.save(userChallenge);
         }
+
+        // insert history
+        // get userHistory
+        DayMonthYear currentDayMonthYear = this.supportUserHistoryService.getCurrentDayMonthYear();
+        UserHistoryId userHistoryId = new UserHistoryId(currentDayMonthYear.getDay(), currentDayMonthYear.getMonth(),
+                currentDayMonthYear.getYear(), userId);
+        UserHistory userHistory = this.userHistoryRepository.findById(userHistoryId).get();
+        // add exercise
+        this.supportUserHistoryService.addExercise(exerciseId, userHistory);
+        // update current burned
+        float calories = this.supportUserHistoryService.caculateCaloriesBasedOnMet(user, excercise);
+        this.supportUserHistoryService.updateCurrentBurned(calories, userHistory);
+        // save
+        this.userHistoryRepository.save(userHistory);
         // return
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.RecordExercise));
     }
