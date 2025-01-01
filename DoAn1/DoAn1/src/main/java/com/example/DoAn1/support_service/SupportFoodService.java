@@ -354,6 +354,7 @@ public class SupportFoodService {
                 .fat(food.getFat())
                 .protein(food.getProtein())
                 .carb(food.getCarb())
+                .weight(calculateTotalWeight(food.getListWeightIngredient()))
                 .build();
     }
 
@@ -377,6 +378,15 @@ public class SupportFoodService {
             listResponseFoods.add(createResponseFoodFromFood(listFoods.get(i)));
         }
         return listResponseFoods;
+    }
+
+    private Double calculateTotalWeight(List<Double> listWeightIngredient) {
+        if (listWeightIngredient == null || listWeightIngredient.isEmpty()) {
+            return 0.0; // Hoặc giá trị mặc định khác tùy theo yêu cầu
+        }
+        return listWeightIngredient.stream()
+                .mapToDouble(Double::doubleValue)
+                .sum();
     }
 
     // check if food name is exist

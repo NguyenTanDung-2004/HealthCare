@@ -24,4 +24,6 @@ public class ResponseFoods {
     private Double carb;
     private Double fat;
     private Double protein;
+
+    private Double weight; 
 }
