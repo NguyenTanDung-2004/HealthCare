@@ -43,4 +43,7 @@ public class ResponseUserInfo {
     private float pressure;
     private float beat;
 
+    private float gluco1;
+    private float pressure1;
+
 }

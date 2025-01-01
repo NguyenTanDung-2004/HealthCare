@@ -103,6 +103,8 @@ public class UserMapper {
                 .gluco(userHistory.getBloodSugar())
                 .pressure(userHistory.getBloodPressure())
                 .beat(userHistory.getHearBeat())
+                .gluco1(user.getBloodSugar1())
+                .pressure1(user.getBloodPressure1())
                 .build();
     }
 
