@@ -15,7 +15,7 @@ public class JwtTAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException authException) throws IOException, ServletException {
 
-        response.sendRedirect("https://www.facebook.com/");
+        response.sendRedirect("http://localhost:3000/account");
     }
 
 }

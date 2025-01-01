@@ -14,7 +14,7 @@ public class JwtAuthorizationEntryPoint implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
             AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        response.sendRedirect("https://www.facebook.com/");
+        response.sendRedirect("http://localhost:3000/account");
     }
 
 }
