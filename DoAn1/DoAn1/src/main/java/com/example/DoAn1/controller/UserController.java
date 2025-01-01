@@ -107,4 +107,9 @@ public class UserController {
         return this.userService.updateExactData(httpServletRequest, requestUpdateExtractUserInfo);
     }
 
+    @GetMapping("/getCurrentDiet")
+    public ResponseEntity<Integer> getCurrentUserDiet(HttpServletRequest httpServletRequest) {
+        return this.userService.getCurrentUserDiet(httpServletRequest);
+    }
+
 }

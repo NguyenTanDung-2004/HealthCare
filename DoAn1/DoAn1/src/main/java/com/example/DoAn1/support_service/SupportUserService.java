@@ -11,6 +11,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.example.DoAn1.Model.Value12;
@@ -388,4 +390,23 @@ public class SupportUserService {
         }
     }
 
+    public ResponseEntity<Integer> getCurrentUserDiet(User user) {
+      //get UserHistory in day
+      Date date = new Date();
+      LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+      UserHistoryId userHistoryId = UserHistoryId.builder()
+        .day(localDate.getDayOfMonth())
+         .month(localDate.getMonthValue())
+       .year(localDate.getYear())
+          .userId(user.getUserId())
+        .build();
+
+      Optional<UserHistory> optional = this.userHistoryRepository.findById(userHistoryId);
+
+      if(optional.isPresent()){
+          UserHistory userHistory = optional.get();
+          return new ResponseEntity<>(userHistory.getFlagDiet(), HttpStatus.OK);
+        }
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
