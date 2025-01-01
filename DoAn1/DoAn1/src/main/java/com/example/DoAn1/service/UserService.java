@@ -244,4 +244,16 @@ public class UserService {
 
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UpdateUserInfo));
     }
+
+
+    public ResponseEntity<Integer> getCurrentUserDiet(HttpServletRequest httpServletRequest) {
+        //get user
+        String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
+        String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
+        User user = this.userRepository.findById(userId).get();
+
+        //get user diet
+        return supportUserService.getCurrentUserDiet(user);
+       }
+
 }
