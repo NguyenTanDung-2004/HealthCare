@@ -137,7 +137,12 @@ public class UserService {
         if (this.utilsHandlePassword.checkPassword(password, user.getPassword()) == 1) {
             String token = this.utilsHandleJwtToken.createToken(user);
             this.supportUserService.setCookie("jwtToken", token, httpServletResponse);
-            return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.LoginSuccessfully));
+            Map<String, Object> map = ResponseCode.jsonOfResponseCode(ResponseCode.LoginSuccessfully);
+            map.put("role", user.getRole());
+            // setup cookie
+            this.supportUserService.setCookie("role", user.getRole(), httpServletResponse);
+
+            return ResponseEntity.ok().body(map);
         } else {
             throw new ExceptionUser(ExceptionCode.PasswordWrong);
         }
@@ -245,15 +250,14 @@ public class UserService {
         return ResponseEntity.ok().body(ResponseCode.jsonOfResponseCode(ResponseCode.UpdateUserInfo));
     }
 
-
     public ResponseEntity<Integer> getCurrentUserDiet(HttpServletRequest httpServletRequest) {
-        //get user
+        // get user
         String jwtToken = this.supportUserService.getCookie(httpServletRequest, "jwtToken");
         String userId = this.utilsHandleJwtToken.verifyToken(jwtToken);
         User user = this.userRepository.findById(userId).get();
 
-        //get user diet
+        // get user diet
         return supportUserService.getCurrentUserDiet(user);
-       }
+    }
 
 }

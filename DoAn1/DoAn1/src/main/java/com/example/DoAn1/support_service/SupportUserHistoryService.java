@@ -332,7 +332,7 @@ public class SupportUserHistoryService {
                 .currentFat(userHistory.getCurrentFat())
                 // protein
                 .totalProtein(userHistory.getTotalProtein())
-                .currentProtein(userHistory.getTotalProtein())
+                .currentProtein(userHistory.getCurrentProtein())
                 // carb
                 .totalCarb(userHistory.getTotalCarb())
                 .currentCarb(userHistory.getCurrentCarb())
