@@ -69,6 +69,11 @@ public class SupportChallengeService {
             numberOfPractices = optional.get().getNumber();
         }
 
+        // numberOfPractices = 0;
+        // if (excercise.getNumberOfPractices() != null) {
+        // numberOfPractices = excercise.getNumberOfPractices();
+        // }
+
         // create creatResponseExerciseChallenge
         ResponseExerciseChallenge responseExerciseChallenge = ResponseExerciseChallenge.builder()
                 .linkImage(responseExercises.getLinkImage())
