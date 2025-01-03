@@ -68,3 +68,11 @@ Nếu có bất kỳ góp ý hoặc câu hỏi nào, vui lòng liên hệ qua em
 Chúc bạn sức khỏe và thành công!  
 
 ---
+
+## Cách chạy dự án
+- Clone backend (Dung-BackEnd) và cả frontend (Hao-FrontEnd) về run cả hai dự án này lên (Backend chạy file HealthCareApplication.java - Frontend chạy script: npm start)
+- Pull image từ docker hub (nguyentandung2004/healthcare:1.0.0 - chạy image bằng lệnh: docker run -p 3307:3306 image-id)
+
+## Thông tin nhóm
+- Nguyễn Tấn Dũng - 22520001
+- Trình Quang Hạo - 22520406
