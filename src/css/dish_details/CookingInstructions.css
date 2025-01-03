@@ -1,0 +1,163 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: rgb(20, 69, 254);
+}
+.cooking-instructions {
+  margin: 2px;
+  border-radius: 50px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+.cooking-instructions__title {
+  text-align: center;
+  margin-top: 30px;
+  font-family: "Inter", sans-serif;
+  font-size: 54px;
+  font-weight: bold;
+}
+.cooking-instructions__footer1 {
+  text-align: center;
+  font-family: "Itim", cursive;
+  font-size: 16px;
+  font-weight: bold;
+}
+.cooking-instructions__footer2 {
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  margin-bottom: 50px;
+}
+.cooking-instructions__main {
+  padding: 40px 250px 0 250px;
+}
+.cooking-instructions__item {
+  display: flex;
+  border-radius: 0 50px 0 50px;
+  overflow: hidden;
+  background-color: #c3cffd;
+  margin-bottom: 60px;
+}
+.cooking-instructions__item.reverse {
+  flex-direction: row-reverse;
+}
+
+/* video */
+/* General styles for cooking instructions */
+.cooking-instructions {
+  transition: filter 0.3s ease;
+}
+
+.cooking-instructions.blur-bg {
+  filter: blur(10px); /* Làm mờ khi video chơi */
+}
+
+/* Video container */
+.video-container {
+  position: relative;
+  width: 30%;
+  margin-right: 50px;
+  overflow: hidden;
+  background-color: #eaeaea;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.instruction-video {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  color: white;
+  font-weight: bold;
+}
+
+.video-container.video-playing .video-overlay {
+  display: none; /* Ẩn icon khi video chơi */
+}
+
+/* Fullscreen video */
+.fullscreen-video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.fullscreen-video {
+  width: 80%;
+  height: auto;
+  object-fit: contain;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  font-size: 30px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: var(--color-health-care);
+}
+
+/* video */
+
+.cooking-instructions__item.reverse .cooking-instructions__img {
+  margin-right: 0;
+}
+.cooking-instructions__item .cooking-instructions__img {
+  border-radius: 0 0 0 50px;
+  width: 30%;
+  height: 100%;
+  margin-right: 50px;
+}
+.cooking-instructions__item .cooking-instructions__img img {
+  width: 100%;
+}
+.cooking-instructions__text {
+  width: 70%;
+  margin: 30px 40px;
+}
+.cooking-instructions__text span {
+  margin-left: 100px;
+  font-family: "Inter", sans-serif;
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+}
+.cooking-instructions__text ul {
+  margin-left: 60px;
+  margin-top: 30px;
+}
+.cooking-instructions__text ul li {
+  margin: 6px 0;
+}

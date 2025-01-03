@@ -1,0 +1,36 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: #1445fe;
+}
+.category-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin: 20px 0px;
+}
+.category-item {
+  font-family: "Inter", sans-serif;
+  color: black;
+  position: relative;
+  cursor: pointer;
+  font-size: 14px;
+}
+.category-item:hover,
+.category-item.active {
+  color: var(--color-health-care);
+}
+.category-item.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  border-bottom: 3px solid transparent;
+  transition: border-color 0.3s;
+  border-color: var(--color-health-care);
+}

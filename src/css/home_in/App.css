@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.home_in {
+  padding: 0 100px;
+  padding-top: 30px;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.home_in .main {
+  display: flex;
+}
+.home_in .main .body {
+  margin: 50px 120px 0 120px;
+  display: flex;
+}

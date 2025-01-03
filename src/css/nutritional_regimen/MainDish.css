@@ -1,0 +1,61 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: #1445fe;
+}
+.main-dish {
+  background-color: white;
+  padding: 100px 250px 100px 250px;
+
+  width: 100vw;
+}
+.main-dish .title {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-health-care);
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  font-size: 70px;
+  width: 100%;
+}
+.main-dish .header-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-dish .header-list .search-wrapper {
+  margin-left: 40px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-dish .header-list .search-wrapper .search-input {
+  background-color: white;
+  outline: none;
+  border: 1px solid #000;
+  border-radius: 15px;
+  width: 100px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  color: black;
+}
+.main-dish .header-list .search-wrapper .search-button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color: black;
+  font-size: 16px;
+}
+.main-dish .header-list .search-wrapper .search-button:hover {
+  color: var(--color-health-care);
+}
+.main-dish .main {
+  display: flex;
+  margin-top: 50px;
+  justify-content: space-between;
+}

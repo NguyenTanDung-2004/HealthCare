@@ -1,0 +1,75 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: #1445fe;
+}
+.dishes-filter {
+  background-color: rgba(140, 158, 228, 0.2);
+  padding: 20px 20px 80px 20px;
+  border-radius: 20px;
+  margin-left: 80px;
+  width: 400px;
+}
+.dishes-filter .title {
+  font-family: "Inter", sans-serif;
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 20px;
+}
+.dishes-filter .filter-item .filter-label {
+  font-family: "Inter", sans-serif;
+  color: black;
+  font-size: 16px;
+  font-weight: medium;
+  display: block;
+}
+.dishes-filter .filter-item .filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-around;
+  padding: 16px 20px;
+}
+.dishes-filter .filter-item .filter-options.cooking-time {
+  flex-direction: column !important;
+}
+.dishes-filter .filter-item .filter-options .filter-option {
+  cursor: pointer;
+  color: #595858;
+  padding: 5px;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: medium;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+.dishes-filter .filter-item .filter-options .filter-option:hover,
+.dishes-filter .filter-item .filter-options .filter-option.selected {
+  color: var(--color-health-care);
+}
+.dishes-filter .filter-item .filter-options input[type="radio"] {
+  margin-right: 8px;
+  accent-color: #fff;
+}
+.dishes-filter .filter-item .filter-options input[type="radio"]:checked {
+  accent-color: var(--color-health-care);
+}
+.dishes-filter .filter-item .filter-options .filter-button {
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  padding: 4px 8px;
+  background-color: #e4e4e4;
+  color: #000;
+}
+.dishes-filter .filter-item .filter-options .filter-button:hover,
+.dishes-filter .filter-item .filter-options .filter-button.selected {
+  background-color: var(--color-health-care);
+  color: white;
+}

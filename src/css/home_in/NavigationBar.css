@@ -1,0 +1,64 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.navigation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: fixed;
+  margin-top: 50px;
+  margin-right: 100px;
+}
+.navigation-item {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.35);
+  background-color: #efeaea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s ease;
+  transform: scale(0.9);
+}
+.navigation-item:hover {
+  background-color: #1445fe;
+  color: white;
+  transform: scale(1);
+}
+.navigation-item.active {
+  background-color: #1445fe;
+  color: white;
+  transform: scale(1);
+}
+.navigation-list a {
+  color: black;
+  text-decoration: none;
+}
+.navigation-item i {
+  font-size: 26px;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%; /* Đặt tooltip phía trên item */
+  left: 70%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: visible;
+  transition: opacity 0.3s, visibility 0.3s;
+  font-size: 14px;
+}
+
+.navigation-item:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}

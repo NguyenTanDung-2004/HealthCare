@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.dish-details {
+  overflow-x: hidden;
+}
+.dish-details__header {
+  padding: 0 100px;
+  padding-top: 30px;
+}
+
+.dish-details #main3 {
+  margin-top: 250px;
+}

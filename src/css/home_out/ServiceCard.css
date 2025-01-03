@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --colorHealthCare: #1445fe;
+}
+.card-container {
+  width: 280px;
+  height: 380px;
+  border-radius: 20px;
+  background-color: rgba(193, 207, 253, 0.5);
+  box-shadow: 7px 8px 7px rgba(20, 69, 254, 0.25);
+  display: flex;
+  flex-direction: column;
+  padding: 30px 30px 40px 30px;
+  justify-content: space-between;
+}
+.card-container img {
+  width: 180px;
+  align-self: center;
+  justify-self: start;
+}
+.card-container .card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.card-container .card-content .card-title {
+  color: var(--colorHealthCare);
+  font-family: "Itim", cursive;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 24px;
+}

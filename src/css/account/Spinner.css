@@ -1,0 +1,41 @@
+#root > div > div.divSpinner {
+  position: fixed;
+  bottom: 30px;
+  right: 40px;
+  width: 300px;
+  padding: 10px 10px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px 0px gray;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  z-index: 2;
+  display: none;
+}
+
+#root > div > div.divSpinner i {
+  padding: 10px 10px;
+  border-radius: 50%;
+  background-color: greenyellow;
+  color: black;
+  font-weight: 700;
+  display: none;
+}
+
+#root > div > div.divSpinner p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+#root > div > div.divSpinner div {
+  color: #1445fe;
+}
+
+#root > div > div.spinner-border > span {
+  width: 20px;
+  height: 20px;
+  background-color: blue;
+  z-index: 1;
+}

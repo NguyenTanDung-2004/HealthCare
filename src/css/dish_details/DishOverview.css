@@ -1,0 +1,168 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: rgb(20, 69, 254);
+}
+.dish-overview {
+  margin: 2px;
+  height: 100vh;
+  border-radius: 50px;
+  position: relative;
+  margin-top: 40px;
+}
+.dish-overview .navigation-list {
+  margin-left: 100px;
+}
+
+.heart-corner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.heart-corner img {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.heart-corner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 100px solid white;
+  border-left: 120px solid transparent;
+}
+
+.dish-overview__main {
+  display: flex;
+  padding: 20px 180px 20px 220px;
+  justify-content: space-between;
+}
+.dish-overview__left {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dish-overview__left .type-dish {
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  color: var(--color-health-care);
+}
+.dish-overview__left .name-dish {
+  margin-top: 20px;
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  font-size: 64px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  white-space: normal;
+  max-width: 100%;
+}
+.dish-overview__left img {
+  object-fit: cover;
+  width: 70%;
+  margin-top: 0px;
+}
+.dish-overview__left .info-dish {
+  margin-top: 20px;
+  display: flex;
+  gap: 60px;
+}
+.dish-overview__left .info-dish .info-item {
+  display: flex;
+  flex-direction: column;
+}
+.dish-overview__left .info-dish .info-item .info-item__name {
+  font-family: "Itim", cursive;
+  color: #595858;
+  font-weight: 400;
+  font-size: 28px;
+}
+.dish-overview__left .info-dish .info-item .info-item__amount {
+  margin-top: 4px;
+  font-family: "Itim", cursive;
+  color: black;
+  font-weight: 400;
+  font-size: 40px;
+}
+
+.dish-overview__right {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+}
+.dish-overview__right .btn-back {
+  margin-top: 20px;
+  align-self: flex-end;
+  outline: none;
+  border: none;
+  width: 80px;
+  background-color: white;
+  border: 2px solid var(--color-health-care);
+  border-radius: 10px;
+  padding: 4px 0;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+.dish-overview__right .btn-back:hover {
+  background-color: var(--color-health-care);
+}
+.dish-overview__right .btn-back:hover i {
+  color: white;
+}
+
+.dish-overview__right .btn-back i {
+  font-size: 24px;
+  color: var(--color-health-care);
+}
+.dish-overview__right p {
+  margin-top: 80px;
+  font-family: "Inter", sans-serif;
+  font-style: italic;
+  text-align: justify;
+  width: 80%;
+  list-style: 1.8;
+  align-self: flex-end;
+  font-size: 18px;
+}
+.dish-overview__right span {
+  color: var(--color-health-care);
+  font-size: 30px;
+}
+.dish-overview__right .dish-rating {
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  margin-top: 140px;
+  gap: 4px;
+}
+
+.dish-overview__right .dish-rating img {
+  width: 50px;
+  height: 50x;
+}
+
+.dish-overview__right .dish-rating span {
+  margin-top: 10px;
+  color: black;
+  margin-left: 16px;
+  font-style: italic;
+}
