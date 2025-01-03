@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.workout-button {
+  outline: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  border: 3px solid #ababab;
+  background-color: white;
+  color: #ababab;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.workout-button:hover {
+  background-color: #f0f0f0;
+}
+
+.workout-button:active {
+  transform: scale(0.95);
+}
+
+.workout-button.clicked {
+  outline: none;
+  border: 3px solid rgb(20, 69, 254);
+  background-color: white;
+  color: rgb(20, 69, 254);
+  box-shadow: 2px 4px 10px rgba(20, 69, 254, 0.6);
+}

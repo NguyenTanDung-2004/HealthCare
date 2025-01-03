@@ -1,0 +1,91 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: rgb(20, 69, 254);
+}
+
+.card-recommend {
+  width: 170px;
+  height: 250px;
+  position: relative;
+  margin: 0 20px;
+  cursor: pointer;
+}
+
+.card-recommend__container {
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  display: flex;
+  cursor: pointer;
+  background: rgb(202, 202, 204);
+}
+.card-recommend:hover .card-recommend__container {
+  box-shadow: 2px 7px 10px rgba(20, 69, 254, 0.5);
+}
+
+.card-recommend__container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+}
+.card-recommend__info {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  padding: 10px 14px;
+  background-color: #022094;
+  border-radius: 20px;
+}
+.card-recommend .card-info__top {
+  display: flex;
+  justify-content: space-between;
+}
+.card-recommend .card-info__item {
+  color: black;
+  background-color: #ffed00;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  min-width: 70px;
+  padding: 4px 8px;
+}
+.card-recommend .card-info__item img {
+  margin-right: 4px;
+  width: 15px;
+  object-fit: contain;
+}
+
+.card-recommend .card-info__bottom {
+  margin-top: 4px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card-recommend .card-info__name {
+  flex: 1;
+  margin-right: 8px;
+}
+
+.card-recommend .card-info__rating {
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.card-recommend .card-info__rating img {
+  width: 12px;
+  height: 12px;
+}

@@ -1,0 +1,32 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.divLeft__home {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.divLeft__home span {
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  width: 400px;
+  max-width: 40%;
+  font-size: 70px;
+}
+.container-img {
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  border: 20px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.container-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

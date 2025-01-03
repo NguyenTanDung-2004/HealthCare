@@ -1,0 +1,26 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: #1445fe;
+}
+.list-workout {
+  padding: 0 150px;
+  display: flex;
+  flex-direction: column;
+}
+.list-workout__info span {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-style: italic;
+}
+.list-workout__main {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  gap: 36px;
+  justify-content: space-between;
+}

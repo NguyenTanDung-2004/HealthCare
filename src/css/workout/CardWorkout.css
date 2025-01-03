@@ -1,0 +1,89 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: rgb(20, 69, 254);
+}
+
+.card-workout {
+  width: 300px;
+  height: 380px;
+  position: relative;
+
+  cursor: pointer;
+}
+
+.card-workout__container {
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  display: flex;
+  cursor: pointer;
+  background: rgb(202, 202, 204);
+}
+.card-workout:hover .card-workout__container {
+  box-shadow: 2px 7px 10px rgba(20, 69, 254, 0.5);
+}
+
+.card-workout__container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+}
+.card-workout__info {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  padding: 12px 14px;
+  background-color: #022094;
+  border-radius: 20px;
+}
+.card-workout .card-info__top {
+  display: flex;
+  justify-content: space-between;
+}
+.card-workout .card-info__item {
+  color: black;
+  background-color: #ffed00;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  min-width: 80px;
+  padding: 5px 10px;
+}
+.card-workout .card-info__item img {
+  margin-right: 4px;
+}
+
+.card-workout .card-info__bottom {
+  margin-top: 8px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card-workout .card-info__name {
+  flex: 1;
+  margin-right: 8px;
+}
+
+.card-workout .card-info__rating {
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.card-workout .card-info__rating img {
+  width: 12px;
+  height: 12px;
+}

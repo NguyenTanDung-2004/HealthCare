@@ -1,0 +1,37 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: #1445fe;
+}
+
+.main-workout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.main-workout .header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.main-workout .title {
+  color: black;
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  font-size: 50px;
+}
+
+.main-workout .button-filter {
+  margin-top: -70px;
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+  width: 100%;
+}

@@ -1,0 +1,178 @@
+.divComplete p {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+#root > div > div.divForgotPassword {
+  position: fixed;
+  z-index: 1;
+  width: fit-content;
+  height: fit-content;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 2px 3px 12px gray;
+  top: -700px;
+  transition: 0.5s;
+  display: block;
+}
+
+#root > div > div.divForgotPassword .divMain {
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#root > div > div.divForgotPassword .divMain .divChild {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#root
+  > div
+  > div.divForgotPassword
+  > div.divMain
+  > div.divBMI.divChild
+  > p:nth-child(2) {
+  color: red;
+  font-size: 14px;
+  display: none;
+}
+
+#root > div > div.divForgotPassword .divMain .divChild p {
+  color: #595858;
+}
+
+#root > div > div.divForgotPassword > div.divMain > div.divBMI.divChild > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+#root
+  > div
+  > div.divForgotPassword
+  > div.divMain
+  > div.divBMI.divChild
+  > div
+  input {
+  width: calc(100% / 2 - 10px);
+  height: 40px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #cccccc;
+  background-color: #f6f4f4;
+  padding-left: 10px;
+  font-size: 16px;
+}
+
+#root > div > div.divForgotPassword .divHeader {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+}
+
+#root > div > div.divForgotPassword .divHeader p {
+  max-width: 550px;
+  color: #1445fe;
+}
+
+#root
+  > div
+  > div.divForgotPassword
+  > div.divMain
+  > div.divChild
+  > div.divRadioButton {
+  display: flex;
+  justify-content: space-between;
+  /* max-width: 550px; */
+}
+
+#root
+  > div
+  > div.divForgotPassword
+  > div.divMain
+  > div.divChild
+  > div.divRadioButton
+  .divTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+#root
+  > div
+  > div.divForgotPassword
+  > div.divMain
+  > div.divBloodPressure.divChild
+  > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#root
+  > div
+  > div.divForgotPassword
+  > div.divMain
+  > div.divChild
+  > div.divRadioButton
+  .divBottom {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+#root
+  > div
+  > div.divForgotPassword
+  > div.divMain
+  > div.divChild
+  > div.divRadioButton
+  .divLevel {
+  width: fit-content;
+  height: 40px;
+  border: 1px solid #cccccc;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #f6f4f4;
+  border-radius: 5px;
+}
+
+#root
+  > div
+  > div.divForgotPassword
+  > div.divMain
+  > div.divChild
+  > div.divRadioButton
+  .divLevel
+  input {
+  border-color: black;
+  transform: translateY(-2px);
+}
+
+#root
+  > div
+  > div.divForgotPassword
+  > div.divMain
+  > div.divHeartRate.divChild
+  > div
+  .divLevel {
+  width: calc(100% / 3 - 20px);
+  display: flex;
+  justify-content: space-between;
+  padding-left: 20px;
+}
+
+.btn-completed {
+  padding: 8px 8px;
+  border: none;
+  background-color: #1445fe;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  border-radius: 5px;
+  box-shadow: 2px 3px 5px gray;
+}

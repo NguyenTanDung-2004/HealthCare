@@ -1,0 +1,86 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: rgb(20, 69, 254);
+}
+.dish-container {
+  width: 350px;
+  height: 200px;
+  padding: 20px 24px;
+  border-radius: 15px;
+  box-shadow: 2px 5px 7px 0px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+.dish-container:hover {
+  box-shadow: 2px 5px 10px 0px rgba(20, 69, 254, 0.5);
+}
+.dish-container .type {
+  font-family: "Inter", sans-serif;
+  color: var(--color-health-care);
+  font-size: 12px;
+  font-weight: 700;
+}
+.dish-body {
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+.dish-body .dish-left {
+  width: 60%;
+}
+.dish-body .dish-left .name {
+  max-width: 180px;
+  font-family: "Inter", sans-serif;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.dish-body .dish-left img {
+  width: 124px;
+  height: 100px;
+}
+.dish-body .dish-right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 160px;
+}
+
+.dish-body .dish-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dish-body .dish-info span {
+  display: flex;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+  color: black;
+  font-size: 12px;
+}
+
+.dish-body .dish-info img {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+}
+
+.dish-body .dish-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.dish-body .dish-rating img {
+  width: 18px;
+  height: 18px;
+}

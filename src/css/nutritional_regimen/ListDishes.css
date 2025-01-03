@@ -1,0 +1,120 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: #1445fe;
+}
+.list-dishes {
+  width: 740px;
+}
+.list-dishes .list-info {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.list-dishes .list-info .count-dish {
+  margin-left: 10px;
+  font-style: italic;
+}
+.list-dishes .list-main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+.list-dishes .dropdown {
+  width: 250px;
+  position: relative;
+  font-size: 14px;
+}
+.list-dishes .dropdown:hover .dropdown-btn {
+  color: var(--color-health-care);
+}
+
+.list-dishes .dropdown-btn {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  font-size: 14px;
+}
+
+.list-dishes .dropdown-btn .arrow {
+  margin-left: 8px;
+}
+
+.list-dishes .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin-top: 10px;
+  padding: 0;
+  list-style: none;
+  display: none;
+}
+.display-block {
+  display: block !important;
+}
+.list-dishes .dropdown-menu li {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.list-dishes .dropdown-menu li:hover {
+  background-color: lightgray;
+  border-radius: 8px;
+}
+
+/* pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+.pagination button {
+  padding: 8px 14px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.25);
+}
+.pagination button:hover {
+  box-shadow: 2px 4px 4px 0 rgba(20, 69, 254, 0.5);
+}
+.pagination button i {
+  font-size: 20px;
+}
+.pagination .btn-prev,
+.pagination .btn-next {
+  border: none;
+  background-color: var(--color-health-care);
+  color: white;
+  margin: 0 18px;
+}
+
+.pagination .btn-page {
+  border: 2px solid var(--color-health-care);
+  font-size: 18px;
+  background-color: white;
+  margin: 0 6px;
+}
+.pagination .btn-page.active {
+  background-color: var(--color-health-care);
+  color: white;
+}
+
+.pagination button[disabled] {
+  background-color: #d9d9d9;
+  cursor: not-allowed;
+  box-shadow: none;
+}

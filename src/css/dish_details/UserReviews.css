@@ -1,0 +1,108 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-health-care: rgb(20, 69, 254);
+}
+
+.user-reviews {
+  margin: 2px;
+  border-radius: 50px;
+  margin-top: 20px;
+  margin-bottom: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+.user-reviews__title {
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  margin-top: 40px;
+}
+.user-reviews__main {
+  padding: 40px 250px 20px 250px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+.user-reviews__list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  background-color: #dddddd;
+  padding: 22px 30px;
+  border-radius: 20px;
+}
+.user-reviews__item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+.user-reviews__avatar img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.user-reviews__content {
+  flex: 1;
+}
+
+.user-reviews__name {
+  font-weight: bold;
+}
+
+.user-reviews__rating {
+  display: flex;
+}
+.user-reviews__rating img {
+  width: 15px;
+  margin-right: 2px;
+}
+
+.user-reviews__date {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.user-reviews__send-review {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-reviews__send-review input {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.user-reviews__send-review input:focus {
+  outline: 2px solid var(--color-health-care);
+}
+
+.user-reviews__send-review button {
+  background-color: var(--color-health-care);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.user-reviews__send-review button:hover {
+  background-color: white;
+  color: var(--color-health-care);
+  border: 2px solid var(--color-health-care);
+}
+
+.user-reviews__send-review button i {
+  margin-left: 4px;
+}

@@ -1,0 +1,50 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-health-care: #1445fe;
+}
+
+.clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.clock button {
+  outline: none;
+  border: none;
+  background-color: var(--color-health-care);
+  color: white;
+  min-width: 120px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-family: "Inter";
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.clock .clock-container {
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0px 4px 20px rgba(77, 77, 77, 0.2);
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  font-size: 36px;
+}
+
+.clock button:hover {
+  opacity: 0.8;
+}

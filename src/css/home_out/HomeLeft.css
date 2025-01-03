@@ -1,0 +1,40 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#root div > div.homeLeft {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#root div > div.homeLeft > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 24px;
+}
+
+#root div > div.homeLeft > div > p.pTop {
+  font-family: "Itim", cursive;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
+  font-size: 50px;
+  max-width: 48vw;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+#root div > div.homeLeft > div > p.pBottom {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 20px;
+  color: white;
+  max-width: 48vw;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}

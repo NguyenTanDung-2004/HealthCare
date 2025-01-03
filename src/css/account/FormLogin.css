@@ -1,0 +1,137 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#root > div > .divRight {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+#root > div > .divRight div.divFormLogin {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  max-width: fit-content;
+  height: fit-content;
+  padding: 30px 30px;
+  border-radius: 20px;
+  box-shadow: 2px 3px 12px gray;
+  background-color: white;
+}
+
+#root > div > .divRight div.divFormLogin > div.divContinueGoogle > img {
+  width: 30px;
+}
+
+#root > div > .divRight div.divFormLogin .divInput {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#root > div > .divRight div.divFormLogin .divInput input {
+  height: 45px;
+  width: 300px;
+  padding: 5px 5px;
+  border-radius: 5px;
+  outline: none;
+  border: 0.5px solid #595858;
+  padding-left: 10px;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 450;
+}
+
+#root > div > .divRight div.divFormLogin .divInput i {
+  position: absolute;
+  right: 10px;
+  bottom: 15px;
+  cursor: pointer;
+}
+
+#root > div > div.divRight > div > p {
+  font-size: 13px;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  color: gray;
+  font-style: italic;
+  cursor: pointer;
+}
+
+#root > div > div.divRight > div > p:hover {
+  text-decoration: underline;
+}
+
+.btn-formlogin {
+  width: 300px;
+  height: 45px;
+  border-radius: 10px;
+  border: 0;
+  background-color: #1445fe;
+  /* color: white; */
+  font-size: 20px;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  cursor: pointer;
+}
+
+#root > div > div.divRight > div > div.div1 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#root > div > div.divRight > div > div.divContinueGoogle {
+  border: none;
+  width: 100%;
+  justify-content: center;
+  height: 45px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #e4dddd;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 500;
+}
+
+#root > div > div.divRight > div > div.divDontHaveAccount.div1 {
+  font-size: 13px;
+  color: gray;
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#root > div > div.divRight > div > div.divDontHaveAccount.div1 > p.pSignUp {
+  font-weight: 600;
+  color: black;
+  cursor: pointer;
+}
+
+#root
+  > div
+  > div.divRight
+  > div
+  > div.divDontHaveAccount.div1
+  > p.pSignUp:hover {
+  text-decoration: underline;
+}
+
+#root > div > div.divRight > div > div.divInput > p {
+  color: red;
+  font-size: 12px;
+  font-style: italic;
+  display: none;
+}
